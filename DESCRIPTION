@@ -1,0 +1,14 @@
+Package: book.of.features
+Type: Package
+Title: Book of Features: Feature-engineering helpers
+Version: 1.7.8
+Author: Chionesu George <cgeorge@alliancehealthplan.org> [aut, cre]
+Maintainer: Alliance Health Data Science Department <DScience@alliancehealthplan.org>
+Description: The Book of Features provides functions to help with feature-engineering tasks.
+License: Unicorn Overlords
+Encoding: UTF-8
+RoxygenNote: 7.2.0
+Depends: R (>= 4.1.0), book.of.utilities (>= 1.7.0), data.table, doRNG,
+        purrr
+NeedsCompilation: no
+Packaged: 2022-04-23 20:32:29 UTC; cgeorge
