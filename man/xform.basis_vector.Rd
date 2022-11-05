@@ -2,7 +2,7 @@
 % Please edit documentation in R/book.of.features.R
 \name{xform.basis_vector}
 \alias{xform.basis_vector}
-\title{Vector Space Occurrence Map}
+\title{xform.basis_vector}
 \usage{
 xform.basis_vector(
   fvec,
@@ -14,45 +14,12 @@ xform.basis_vector(
   chatty = FALSE
 )
 }
-\arguments{
-\item{fvec}{(vector) Values to be tested against the basis vector}
-
-\item{avec}{(vector) Optional vector of numeric values to project across the basis vector}
-
-\item{bvec}{(vector) A vector of unique values forming the basis vector.  If given as a named list, the output will preserve the names; otherwise, the values of \code{bvec} are used as the names.}
-
-\item{cmp_test}{(function|\code{`==`}) A two-valued function resulting in a logical vector.  The first argument \strong{must} be vectorized over \code{bvec} and able to compare each element in \code{fvec} to \code{bvec}. If \code{'test'} is provided as the argument, the same functionality as setting argument \code{regex} to \code{TRUE} is invoked.}
-
-\item{logical.out}{(logical, vector) When \code{TRUE}, the output consists of logical values; when a vector of length two (2) is supplied, the first value returns on \code{FALSE}, the second on \code{TRUE}; otherwise, the values of \code{avec} are used.  If the vector form is used, only the first value at each position is used to supply the choices.}
-
-\item{regex}{(logical | \code{FALSE}) When \code{TRUE}, argument \code{bvec} is interpreted as patterns against which case-sensitive matches are sought are attempted.  This forces the value of \code{test} to invoke \code{\link[data.table]{like}}.}
-
-\item{chatty}{(logical | \code{FALSE}) When \code{TRUE}, additional information is printed to console}
-}
-\value{
-A data.table object, the column names being the values of \\code{bvec} or names of \code{bvec} if they exist
-}
 \description{
-\code{xform.basis_vector} conducts an identity test of a vector against a basis vector.  It transforms a vector of values into columns, one for each unique value, forming a basis vector for that space.
-It then passes an optional vector of values that are mapped to to each appropriate column: this vector defaults to a vector of 1's with the same length as \emph{\code{fvec}}.
-The function also supports parallelism with a registered backend.  If no backend is registered, \code{\link[foreach]{registerDoSEQ}} is used as a default.
+An alias for \code{\link{logic_map}}
 }
-\section{\strong{Restriction}}{
-
-\code{length(fvec) == length(avec)}
+\seealso{
+Other DEPRECATED: 
+\code{\link{make.islands}()},
+\code{\link{xform.sigmoid}()}
 }
-
-\section{\strong{Warning}}{
-
-When combining with the source object, \code{fvec} must \strong{NOT} be sorted during the function call or the values will not map correctly in the output.
-}
-
-\examples{
-xform.basis_vector(fvec = LETTERS, avec = sample(1:100, 26), chatty = TRUE)
-xform.basis_vector(fvec = LETTERS, avec = sample(1:100, 26), bvec = sample(LETTERS, 5), chatty = TRUE)
-xform.basis_vector(fvec = LETTERS, avec = sample(1:100, 26), bvec = sample(LETTERS, 5), logical.out = TRUE, chatty = TRUE)
-xform.basis_vector(fvec = LETTERS, avec = sample(1:100, 26), bvec = set_names(sample(LETTERS, 5), rownames(mtcars)[1:5]), logical.out = TRUE, chatty = TRUE)
-xform.basis_vector(fvec = LETTERS, avec = sample(1:100, 26), bvec = sample(LETTERS, 5), logical.out = c("red", "blue"), chatty = TRUE)
-xform.basis_vector(fvec = LETTERS, avec = sample(1:100, 26), bvec = sample(LETTERS, 5), logical.out = list(c("red", "blue"), c("cold", "hot")), chatty = TRUE)
-
-}
+\concept{DEPRECATED}

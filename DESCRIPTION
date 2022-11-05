@@ -1,17 +1,19 @@
 Package: book.of.features
 Type: Package
 Title: Feature-Engineering Tools
-Version: 2.0.1
+Version: 2.1.2
 Author: Chionesu George <sapienti.Dei@outlook.com> [aut, cre]
 Maintainer: Chionesu George <sapienti.Dei@outlook.com>
 Description: The Book of Features provides functions to help with feature-engineering tasks.
 License: Unicorn Overlords
 Encoding: UTF-8
 RoxygenNote: 7.2.0
-Depends: R (>= 4.1.0), 
+Depends: R (>= 4.1.0)
+Imports: 
 	book.of.utilities (>= 1.7.0), 
 	data.table, 
-	doRNG, 
-	purrr
+	purrr, 
+	magrittr, 
+	stringi
+Suggests: book.of.utilities
 NeedsCompilation: no
-Packaged: 2022-04-23 20:32:29 UTC; cgeorge

@@ -22,9 +22,7 @@ make.windows(
 
 \item{post}{(function) A post-processing function on the return object having class "data.table" and single column "window"}
 
-\item{debug}{(logical | FALSE) When \code{TRUE}, additional information is printed to console for debugging purposes}
-
-\item{...}{Additional arguments to send to the function contained in argument \code{post}
+\item{debug}{(logical | FALSE) When \code{TRUE}, additional information is printed to console for debugging purposes
 
 Sets are the result of forward-moving partitioning:
 \enumerate{

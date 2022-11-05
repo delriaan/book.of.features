@@ -2,48 +2,16 @@
 % Please edit documentation in R/book.of.features.R
 \name{xform.sigmoid}
 \alias{xform.sigmoid}
-\title{{0,N} Sigmoid Scaler}
+\title{xform.sigmoid}
 \usage{
-xform.sigmoid(
-  input,
-  family = "logistic",
-  centered = TRUE,
-  type = "standard",
-  debug = FALSE,
-  ...
-)
-}
-\arguments{
-\item{input}{(numeric vector or coercible vector)}
-
-\item{family}{(string | "logistic") The family of sigmoid equation to use: Currently, only "logistic", "generalized", and "gompertz" are supported}
-
-\item{centered}{(logical | T) Should the input be centered (\code{x - mean(x)}) before transforming? See \emph{'Details'}}
-
-\item{...}{Valid elements that populate the arguments of \code{type} based on the selected \code{family} (see `Details`)}
-}
-\value{
-A numeric vector of domain {0,N}
+xform.sigmoid(input, family = "logistic", center = mean, debug = FALSE, ...)
 }
 \description{
-\code{xform.sigmoid} Scales the input to a range of {0,N} using the sigmoid function
+An alias for \code{\link{sigmoid}}
 }
-\details{
-The input must contain positive and negative values when \code{centered == F}
-
-Function arguments for each sigmoid family are as follows:
-\enumerate{
-  \item \code{"generalized"}: \code{list(A = 1, K = 1, C = 1, Q = 1, B = 1, v = 1)}
-  \item \code{"logistic"}: \code{list(L = 1, k = 1, x_0 = 0)}
-  \item \code{"gompertz"}: \code{list(N_0 = 1, c = 1, a = 1)}
+\seealso{
+Other DEPRECATED: 
+\code{\link{make.islands}()},
+\code{\link{xform.basis_vector}()}
 }
-}
-\section{References}{
-
-\enumerate{
-\item{\href{https://en.m.wikipedia.org/wiki/Generalised_logistic_function}{Generalized Logistic Function}}
-\item{\href{https://en.m.wikipedia.org/wiki/Sigmoid_function}{Sigmoid Function}}
-\item{\href{https://en.m.wikipedia.org/wiki/Gompertz_function}{Gompertz Function}}
-}
-}
-
+\concept{DEPRECATED}

@@ -2,33 +2,25 @@
 % Please edit documentation in R/book.of.features.R
 \name{make.islands}
 \alias{make.islands}
-\title{Islands and Gaps Calculation}
+\title{make.islands}
 \usage{
-make.islands(srcData, mapFields, timeFields, timeout, boundaryName = "episode", archipelago = TRUE, show.all = FALSE)
-}
-\arguments{
-\item{srcData}{(object): The source dataset, including all non-sessioning fields desired}
-
-\item{mapFields}{(string): A comma-separated string literal containing field names that will partition `data`}
-
-\item{timeFields}{(string): A comma-separated string literal containing field names to use as "start" and "stop" temporal indices.  If only one value is given, that value will be repeated as the "stop" index}
-
-\item{boundaryName}{(string): The name root of the boundary column names (e.g., "episode" -> "episode_start_idx", "episode_end_idx")}
-
-\item{archipelago}{(logical | TRUE): Should the output include the islands and gaps generated?}
-
-\item{show.all}{(logical | FALSE): Should the output include all of the columns of the output?}
-
-\item{timeout:}{The largest allowable 'gap' in a series of time values before a new 'island' begins: can be a quoted expression that conditionally determines the value.}
-}
-\value{
-A data.table with columns <mapFields>, ..., timeOut, ISLAND, island_idx, where '...' is empty if `show.all` is FALSE
+make.islands(
+  srcData,
+  mapFields,
+  timeFields,
+  timeout = GAP > timeout,
+  boundaryName = "episode",
+  archipelago = TRUE,
+  show.all = FALSE,
+  debug = FALSE
+)
 }
 \description{
-\code{make.islands} is conceptually based on the \href{https://www.red-gate.com/simple-talk/sql/t-sql-programming/the-sql-of-gaps-and-islands-in-sequences/}{'islands & gaps'} concept.
+An alias for \code{\link{continuity}}
 }
 \seealso{
-Other Feature Engineering: 
-\code{\link{make.date_time}()}
+Other DEPRECATED: 
+\code{\link{xform.basis_vector}()},
+\code{\link{xform.sigmoid}()}
 }
-\concept{Feature Engineering}
+\concept{DEPRECATED}

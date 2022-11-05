@@ -4,5 +4,5 @@
 \alias{book.of.features-package}
 \title{Feature-Engineering Tools}
 \description{
-\code{book.of.fetures} provides functions to help with feature engineering on the fly
+`book.of.fetures()` provides functions to help with feature engineering on the fly
 }
