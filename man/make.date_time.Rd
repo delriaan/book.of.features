@@ -2,7 +2,7 @@
 % Please edit documentation in R/book.of.features.R
 \name{make.date_time}
 \alias{make.date_time}
-\title{Date-Time Generator}
+\title{Date-Time Sequence Generator}
 \usage{
 make.date_time(
   add_vec = 1:7,

@@ -80,3 +80,11 @@ x <- data.table(
 	)[, j := i + sample(100, 2000, TRUE)]
 
 setorder(x, g, i, j)
+#' @title Book of Features Overview
+#'
+#' @description
+#' The following functional families are covered in `book.of.workflow`:\cr
+#'
+
+#' @name Book of Workflow Package
+NULL

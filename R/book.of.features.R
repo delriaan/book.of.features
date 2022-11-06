@@ -1,11 +1,13 @@
-#' @title Feature-Engineering Tools
-#' @description `book.of.fetures()` provides functions to help with feature engineering on the fly
+#' @title Book of Features Overview
+#' @description `book.of.features` provides functions to help with feature engineering on the fly
 #' @importFrom book.of.utilities %bin% %::% %?% %??% factor.int
 #' @importFrom data.table %like% %ilike% like %between%
 #' @importFrom magrittr %>%
 #' @importFrom stringi %s+%
-#' @name book.of.features-package
+#' @importFrom foreach %do% %dopar%
+#' @name Book of Features Package
 NULL
+
 sigmoid <- function(input, family = "logistic", center = mean, debug = FALSE, ...){
 #' {0,N} Sigmoid Scaler
 #'
@@ -69,10 +71,10 @@ sigmoid <- function(input, family = "logistic", center = mean, debug = FALSE, ..
 }
 #
 logic_map <- function(fvec, avec = rep(1, length(fvec)), bvec = sort(unique(fvec))
-						, cmp_test = `==`, logical.out = FALSE, regex = FALSE, chatty = FALSE){
+	, cmp_test = `==`, logical.out = FALSE, regex = FALSE, chatty = FALSE){
 #' Logical Test Occurrence Map
 #'
-#' \code{logic_map} conducts a test of a vector or list of tuples against a vector of unique values. The test can be one of \code{identity}, pattern-matching, or some custom function with Boolean output. Parallelism is supported with a registered \code{\link[foreach]{foreach}} backend.  If no backend is registered, \code{\link[foreach]{registerDoSEQ}} is used as a default.
+#' `logic_map()` conducts a test of a vector or list of tuples against a vector of unique values. The test can be one of \code{identity}, pattern-matching, or some custom function with Boolean output. Parallelism is supported with a registered \code{\link[foreach]{foreach}} backend.  If no backend is registered, \code{\link[foreach]{registerDoSEQ}} is used as a default.
 #'
 #' @param fvec (vector) Values to be tested: may be a simple vector or a list of tuples
 #' @param avec (vector) Optional vector of numeric values to project \emph{a}cross the basis vector
@@ -121,13 +123,13 @@ logic_map <- function(fvec, avec = rep(1, length(fvec)), bvec = sort(unique(fvec
 #'
 #' @export
 
-	if (!getDoParRegistered()){ registerDoSEQ() }
+	if (!foreach::getDoParRegistered()){ foreach::registerDoSEQ() }
 	if (regex|(identical(cmp_test, "regex"))){
 		cmp_test <- if (regex){ function(bv, fv){ purrr::map_lgl(bv, ~any(fv %like% .x)) }} else { `==` }
 	}
 	out.names = if (is.null(names(bvec))){ as.character(bvec) } else { names(bvec) }
 
-	bvec = reduce(bvec, c);
+	bvec = purrr::reduce(bvec, c);
 
 	if (chatty){ print(list(fvec = c(fvec), avec = c(avec), bvec = bvec, out.names = out.names)) }
 
@@ -204,24 +206,23 @@ make.windows <- function(series, window.size, increment = 1, post = eval, debug 
 bin.windows <- function(i = 1, use.bin = NULL, min.factor = 1){
 #' Create Bins From Integer Factor
 #'
-#' \code{bin.windows} creates binned ranges based on the minimum factor of the integer input (\code{i}) or user-supplied value.
+#' `bin.windows()` creates binned ranges based on the minimum factor of the integer input (`i`) or user-supplied value.
 #'
-#' @param i (integer[][][]) An integer scalar, vector, or n-dimensional object executed conditionally as follows:
+#' @param i (integer[[[]]]) An integer scalar, vector, or n-dimensional object executed conditionally as follows:
 #' \itemize{
 #' \item if a vector of length = 1, a zero-based sequence up to \code{abs(i) } is used
 #' \item if a vector of length = 2, a sequence is created from the values in the order given
 #' \item if a vector of length >= 3, the raw values
-#' \item if n-dimensional, recursion along the last dimension given by \code{dim(i)} until a vector is detected
+#' \item if n-dimensional, recursion along the last dimension given by `dim(i)` until a vector is detected
 #' }
 #'
-#' @param use.bin (integer) The bin size to use: should be greater than zero (0), overrides the internal effects of argument \code{min.factor}.
+#' @param use.bin (integer) The bin size to use: should be greater than zero (0), overrides the internal effects of argument `min.factor`.
 #'
-#' @param min.factor (integer) The minimum factor of of \code{i} allowed when \code{use.bin} is less than or equal to one (1).  This becomes the bin size.
+#' @param min.factor (integer) The minimum factor of of `i` allowed when `use.bin` is less than or equal to one (1).  This becomes the bin size.
 #'
 #' @return An ordered \code{\link[base]{factor}} with levels defined on the bin size.  If the input is dimensional, an array of the same dimensions is returned
 #'
 #' @export
-#'
 
 	.dir <- FALSE;
 	func = function(ii)	{
@@ -277,7 +278,6 @@ bin.windows <- function(i = 1, use.bin = NULL, min.factor = 1){
 		.dms = dim(i);
 
 		.out = apply(X = i, MARGIN = length(.dms), FUN = bin.windows, use.bin = use.bin, min.factor = min.factor, simplify = TRUE) ;
-
 		if (length(.dms) == 2){ .out <- t(.out) }
 
 		as.array(.out) %>% structure(dim = .dms, dimnames = .dns);
@@ -285,7 +285,7 @@ bin.windows <- function(i = 1, use.bin = NULL, min.factor = 1){
 }
 #
 make.date_time <- function(add_vec = 1:7, var_start = Sys.Date(), var_form = "%Y-%m-%d 00:00:00", var_tz = "", var_interval = "days"){
-#' Date-Time Generator
+#' Date-Time Sequence Generator
 #'
 #' \code{make.date_time} serves as a wrapper for \code{\link[stringi]{stringi_datetime_add}}
 #'
@@ -331,7 +331,7 @@ continuity <- function(srcData, mapFields, timeFields
 	# :: Helper function to transform date types and factors into integers
 	dt.check_fn	= function(i){
 		cl = class(i);
-		{ if (any(cl %in% c("Date", "POSIXlt"))) {
+		{ if (any(cl %in% c("Date", "POSIXlt"))){
 			(i - as.Date("1900-01-01")) %>% as.integer()
 			} else if (any(cl %in% c("POSIXct", "character"))) {
 				(as.Date(i, origin = "1900-01-01") - as.Date("1900-01-01")) %>% as.integer()
@@ -369,8 +369,7 @@ continuity <- function(srcData, mapFields, timeFields
 		)}
 
 	if (!all(sanity.check)){
-		paste0(message(paste(sanity.check[which(!sanity.check)], collapse = ", ")
-						," failed sanity checks ..."));
+		paste0(message(paste(sanity.check[which(!sanity.check)], collapse = ", ")," failed sanity checks ..."));
 		return("Execution failed.");
 	}
 
@@ -451,21 +450,9 @@ continuity <- function(srcData, mapFields, timeFields
 	][, .SD[, if (show.all) { c(1:(colnames(.SD) %>% length())) } else { outputFields }, with = FALSE] %>% unique()]
 }
 
-#' @title xform.basis_vector
-#' @family DEPRECATED
-#' @description
-#' An alias for \code{\link{logic_map}}
 #' @export
 xform.basis_vector <- logic_map
-#' @title xform.sigmoid
-#' @family DEPRECATED
-#' @description
-#' An alias for \code{\link{sigmoid}}
 #' @export
 xform.sigmoid <- sigmoid
-#' @title make.islands
-#' @family DEPRECATED
-#' @description
-#' An alias for \code{\link{continuity}}
 #' @export
 make.islands <- continuity
