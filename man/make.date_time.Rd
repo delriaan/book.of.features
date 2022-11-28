@@ -2,7 +2,7 @@
 % Please edit documentation in R/book.of.features.R
 \name{make.date_time}
 \alias{make.date_time}
-\title{Date-Time Generator}
+\title{Date-Time Sequence Generator}
 \usage{
 make.date_time(
   add_vec = 1:7,
@@ -24,10 +24,5 @@ make.date_time(
 \item{var_interval}{(string | "days"): The unit of time for \code{add_vec}}
 }
 \description{
-\code{make.date_time} serves as a wrapper for 'stringi::stringi_datetime_add()'
+\code{make.date_time} serves as a wrapper for \code{\link[stringi]{stringi_datetime_add}}
 }
-\seealso{
-Other Feature Engineering: 
-\code{\link{make.islands}()}
-}
-\concept{Feature Engineering}

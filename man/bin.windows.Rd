@@ -7,7 +7,7 @@
 bin.windows(i = 1, use.bin = NULL, min.factor = 1)
 }
 \arguments{
-\item{i}{(integer[][][]) An integer scalar, vector, or n-dimensional object executed conditionally as follows:
+\item{i}{(integer[]) An integer scalar, vector, or n-dimensional object executed conditionally as follows:
 \itemize{
 \item if a vector of length = 1, a zero-based sequence up to \code{abs(i) } is used
 \item if a vector of length = 2, a sequence is created from the values in the order given
@@ -20,7 +20,7 @@ bin.windows(i = 1, use.bin = NULL, min.factor = 1)
 \item{min.factor}{(integer) The minimum factor of of \code{i} allowed when \code{use.bin} is less than or equal to one (1).  This becomes the bin size.}
 }
 \value{
-An ordered \code{\link[base]{factor}} with levels defined on the bin size.  If the input is dimensional, an array of the same dimensions is returned
+A character vector the length of the input, as "binned" representations.  If the input is dimensional, an array of the same dimensions is returned
 }
 \description{
 \code{bin.windows} creates binned ranges based on the minimum factor of the integer input (\code{i}) or user-supplied value.

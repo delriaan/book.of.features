@@ -1,14 +1,15 @@
 Package: book.of.features
-Type: Package
-Title: Book of Features: Feature-engineering helpers
-Version: 2.0.0
+Title: Book of Features
+Version: 1.0.0
 Author: Chionesu George <sapienti.Dei@outlook.com> [aut, cre]
 Maintainer: Chionesu George <sapienti.Dei@outlook.com>
-Description: The Book of Features provides functions to help with feature-engineering tasks.
-License: Unicorn Overlords
+Description: Package `book.of.features` provides ad-hoc feature-engineering utilities.
+Imports:
+    book.of.utilities,
+    data.table,
+    foreach,
+    magrittr,
+    stringi
 Encoding: UTF-8
+License: file LICENSE
 RoxygenNote: 7.2.0
-Depends: R (>= 4.1.0), book.of.utilities (>= 1.7.0), data.table, doRNG,
-        purrr
-NeedsCompilation: no
-Packaged: 2022-04-23 20:32:29 UTC; cgeorge

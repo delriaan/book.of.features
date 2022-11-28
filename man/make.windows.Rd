@@ -22,9 +22,7 @@ make.windows(
 
 \item{post}{(function) A post-processing function on the return object having class "data.table" and single column "window"}
 
-\item{debug}{(logical | FALSE) When \code{TRUE}, additional information is printed to console for debugging purposes}
-
-\item{...}{Additional arguments to send to the function contained in argument \code{post}
+\item{debug}{(logical | FALSE) When \code{TRUE}, additional information is printed to console for debugging purposes
 
 Sets are the result of forward-moving partitioning:
 \enumerate{
@@ -33,7 +31,7 @@ Sets are the result of forward-moving partitioning:
 }}
 }
 \value{
-A serialized collection-list of partitions (windows), each window containing a subset of size `window.size`
+A serialized collection-list of partitions (windows), each window containing a subset of size \code{window.size}
 }
 \description{
 \code{make.windows} takes as its first argument a series of values and produces a list of partitioned sets referred to as a "window"
