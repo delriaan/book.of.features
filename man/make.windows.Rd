@@ -31,7 +31,7 @@ Sets are the result of forward-moving partitioning:
 }}
 }
 \value{
-A serialized collection-list of partitions (windows), each window containing a subset of size `window.size`
+A serialized collection-list of partitions (windows), each window containing a subset of size \code{window.size}
 }
 \description{
 \code{make.windows} takes as its first argument a series of values and produces a list of partitioned sets referred to as a "window"

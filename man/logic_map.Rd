@@ -33,7 +33,7 @@ logic_map(
 Invisibly, a data.table object, the column names being the values of \code{bvec} or names of \code{bvec} if they exist
 }
 \description{
-`logic_map()` conducts a test of a vector or list of tuples against a vector of unique values. The test can be one of \code{identity}, pattern-matching, or some custom function with Boolean output. Parallelism is supported with a registered \code{\link[foreach]{foreach}} backend.  If no backend is registered, \code{\link[foreach]{registerDoSEQ}} is used as a default.
+\code{logic_map} conducts a test of a vector or list of tuples against a vector of unique values. The test can be one of \code{identity}, pattern-matching, or some custom function with Boolean output. Parallelism is supported with a registered \code{\link[foreach]{foreach}} backend.  If no backend is registered, \code{\link[foreach]{registerDoSEQ}} is used as a default.
 }
 \section{\strong{Restriction}}{
 
@@ -45,32 +45,3 @@ Invisibly, a data.table object, the column names being the values of \code{bvec}
 When combining with the source object, \code{fvec} must \strong{NOT} be sorted during the function call or the values will not map correctly in the output.
 }
 
-\examples{
-n <- 20
-
-fvec <- list(
-	ex_1 = sample(LETTERS[1:10], n, TRUE)
-	, ex_2 = sample(LETTERS[seq(2,20,2)], n, TRUE)
-	, ex_3 = data.table::transpose(list(sample(LETTERS[seq(2,20,2)], n, TRUE), sample(LETTERS[seq(2,20,2)], n, TRUE)))
-	, ex_4 = colors() \%>\% sample(4) \%>\% sample(n, TRUE)
-	, ex_5 = list(
-		colors() \%>\% sample(4) \%>\% sample(n, TRUE)
-		, sample(letters[seq(2,20,2)], n, TRUE)
-	) \%>\% data.table::transpose() \%>\% purrr::map(unlist, recursive = FALSE)
-);
-
-avec <- sample(seq(1, 30, 0.75), n, TRUE);
-bvec <- list(
-	set_1 = fvec$ex_2 \%>\% unique() \%>\% sample(5)
-	, set_2 = sprintf("[\%s\%s]{1,3}", sample(letters, 10), sample(letters, 10))
-);
-
-purrr::map(fvec[1:3], book.of.features::xform.basis_vector, avec = avec, bvec = bvec$set_1);
-purrr::map(fvec[1:3], book.of.features::xform.basis_vector, avec = avec, bvec = bvec$set_1, logical.out = TRUE);
-
-data.table::data.table(fvec$ex_4, book.of.features::xform.basis_vector(fvec$ex_4, avec = avec))
-data.table::data.table(fvec$ex_4, book.of.features::xform.basis_vector(fvec$ex_4, avec = avec, bvec = bvec$set_2, regex = TRUE))
-data.table::data.table(fvec$ex_5, book.of.features::xform.basis_vector(fvec$ex_5, avec = avec, bvec = bvec$set_2, regex = TRUE))
-data.table::data.table(fvec$ex_5, book.of.features::xform.basis_vector(fvec$ex_5, avec = avec, bvec = bvec$set_2, regex = TRUE, logical.out = TRUE))
-
-}

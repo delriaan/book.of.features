@@ -1,12 +1,19 @@
-#' @title Book of Features Overview
-#' @description `book.of.features` provides functions to help with feature engineering on the fly
+#' @title Book of Features Package
+#'
+#' @description
+#' \code{book.of.features} provides feature-engineering helper functions.
+#'
 #' @importFrom book.of.utilities %bin% %::% %?% %??% factor.int
 #' @importFrom data.table %like% %ilike% like %between%
 #' @importFrom magrittr %>%
 #' @importFrom stringi %s+%
 #' @importFrom foreach %do% %dopar%
+#'
 #' @name Book of Features Package
 NULL
+# usethis::use_proprietary_license(copyright_holder = "Chionesu George")
+# if (dir(pattern = "yml") |> length() == 0){ usethis::use_pkgdown() }
+# pkgdown::build_site()
 
 sigmoid <- function(input, family = "logistic", center = mean, debug = FALSE, ...){
 #' {0,N} Sigmoid Scaler
@@ -47,7 +54,7 @@ sigmoid <- function(input, family = "logistic", center = mean, debug = FALSE, ..
 	# Initialize the internal environment with defaults
 	L <- K <- A <- C <- Q <- B <- v <- 1;
 
-	family <- (substitute(c(family)))[-1];
+	family <- as.character(rlang::enexpr(family))
 
 	# Capture the internal environment
 	env <- environment((function(){}));
@@ -70,11 +77,10 @@ sigmoid <- function(input, family = "logistic", center = mean, debug = FALSE, ..
 	if (all(Im(output) == 0)){ Re(output) } else { output }
 }
 #
-logic_map <- function(fvec, avec = rep(1, length(fvec)), bvec = sort(unique(fvec))
-	, cmp_test = `==`, logical.out = FALSE, regex = FALSE, chatty = FALSE){
+logic_map <- function(fvec, avec = rep(1, length(fvec)), bvec = sort(unique(fvec)), cmp_test = `==`, logical.out = FALSE, regex = FALSE, chatty = FALSE){
 #' Logical Test Occurrence Map
 #'
-#' `logic_map()` conducts a test of a vector or list of tuples against a vector of unique values. The test can be one of \code{identity}, pattern-matching, or some custom function with Boolean output. Parallelism is supported with a registered \code{\link[foreach]{foreach}} backend.  If no backend is registered, \code{\link[foreach]{registerDoSEQ}} is used as a default.
+#' \code{logic_map} conducts a test of a vector or list of tuples against a vector of unique values. The test can be one of \code{identity}, pattern-matching, or some custom function with Boolean output. Parallelism is supported with a registered \code{\link[foreach]{foreach}} backend.  If no backend is registered, \code{\link[foreach]{registerDoSEQ}} is used as a default.
 #'
 #' @param fvec (vector) Values to be tested: may be a simple vector or a list of tuples
 #' @param avec (vector) Optional vector of numeric values to project \emph{a}cross the basis vector
@@ -92,34 +98,6 @@ logic_map <- function(fvec, avec = rep(1, length(fvec)), bvec = sort(unique(fvec
 #' When combining with the source object, \code{fvec} must \strong{NOT} be sorted during the function call or the values will not map correctly in the output.
 #'
 #' @return Invisibly, a data.table object, the column names being the values of \code{bvec} or names of \code{bvec} if they exist
-#'
-#' @examples
-#' n <- 20
-#'
-#' fvec <- list(
-#' 	ex_1 = sample(LETTERS[1:10], n, TRUE)
-#' 	, ex_2 = sample(LETTERS[seq(2,20,2)], n, TRUE)
-#' 	, ex_3 = data.table::transpose(list(sample(LETTERS[seq(2,20,2)], n, TRUE), sample(LETTERS[seq(2,20,2)], n, TRUE)))
-#' 	, ex_4 = colors() %>% sample(4) %>% sample(n, TRUE)
-#' 	, ex_5 = list(
-#' 		colors() %>% sample(4) %>% sample(n, TRUE)
-#' 		, sample(letters[seq(2,20,2)], n, TRUE)
-#' 	) %>% data.table::transpose() %>% purrr::map(unlist, recursive = FALSE)
-#' );
-#'
-#' avec <- sample(seq(1, 30, 0.75), n, TRUE);
-#' bvec <- list(
-#' 	set_1 = fvec$ex_2 %>% unique() %>% sample(5)
-#' 	, set_2 = sprintf("[%s%s]{1,3}", sample(letters, 10), sample(letters, 10))
-#' );
-#'
-#' purrr::map(fvec[1:3], book.of.features::xform.basis_vector, avec = avec, bvec = bvec$set_1);
-#' purrr::map(fvec[1:3], book.of.features::xform.basis_vector, avec = avec, bvec = bvec$set_1, logical.out = TRUE);
-#'
-#' data.table::data.table(fvec$ex_4, book.of.features::xform.basis_vector(fvec$ex_4, avec = avec))
-#' data.table::data.table(fvec$ex_4, book.of.features::xform.basis_vector(fvec$ex_4, avec = avec, bvec = bvec$set_2, regex = TRUE))
-#' data.table::data.table(fvec$ex_5, book.of.features::xform.basis_vector(fvec$ex_5, avec = avec, bvec = bvec$set_2, regex = TRUE))
-#' data.table::data.table(fvec$ex_5, book.of.features::xform.basis_vector(fvec$ex_5, avec = avec, bvec = bvec$set_2, regex = TRUE, logical.out = TRUE))
 #'
 #' @export
 
@@ -176,7 +154,7 @@ make.windows <- function(series, window.size, increment = 1, post = eval, debug 
 #'   \item \code{increment}: The number of items to increment before selecting the next W items (W + i)
 #' }
 #'
-#' @return A serialized collection-list of partitions (windows), each window containing a subset of size `window.size`
+#' @return A serialized collection-list of partitions (windows), each window containing a subset of size \code{window.size}
 #'
 #' @export
 
@@ -206,21 +184,21 @@ make.windows <- function(series, window.size, increment = 1, post = eval, debug 
 bin.windows <- function(i = 1, use.bin = NULL, min.factor = 1){
 #' Create Bins From Integer Factor
 #'
-#' `bin.windows()` creates binned ranges based on the minimum factor of the integer input (`i`) or user-supplied value.
+#' \code{bin.windows} creates binned ranges based on the minimum factor of the integer input (\code{i}) or user-supplied value.
 #'
-#' @param i (integer[[[]]]) An integer scalar, vector, or n-dimensional object executed conditionally as follows:
+#' @param i (integer[]) An integer scalar, vector, or n-dimensional object executed conditionally as follows:
 #' \itemize{
 #' \item if a vector of length = 1, a zero-based sequence up to \code{abs(i) } is used
 #' \item if a vector of length = 2, a sequence is created from the values in the order given
 #' \item if a vector of length >= 3, the raw values
-#' \item if n-dimensional, recursion along the last dimension given by `dim(i)` until a vector is detected
+#' \item if n-dimensional, recursion along the last dimension given by \code{dim(i)} until a vector is detected
 #' }
 #'
-#' @param use.bin (integer) The bin size to use: should be greater than zero (0), overrides the internal effects of argument `min.factor`.
+#' @param use.bin (integer) The bin size to use: should be greater than zero (0), overrides the internal effects of argument \code{min.factor}.
 #'
-#' @param min.factor (integer) The minimum factor of of `i` allowed when `use.bin` is less than or equal to one (1).  This becomes the bin size.
+#' @param min.factor (integer) The minimum factor of of \code{i} allowed when \code{use.bin} is less than or equal to one (1).  This becomes the bin size.
 #'
-#' @return An ordered \code{\link[base]{factor}} with levels defined on the bin size.  If the input is dimensional, an array of the same dimensions is returned
+#' @return A character vector the length of the input, as "binned" representations.  If the input is dimensional, an array of the same dimensions is returned
 #'
 #' @export
 
@@ -300,10 +278,7 @@ make.date_time <- function(add_vec = 1:7, var_start = Sys.Date(), var_form = "%Y
 	stringi::stri_datetime_add(time = as.Date(var_start), value = add_vec, unit = var_interval, tz = var_tz) %>% format(var_form)
 }
 #
-continuity <- function(srcData, mapFields, timeFields
-	, timeout = GAP > timeout, boundaryName = "episode"
-	, archipelago = TRUE, show.all = FALSE, debug	= FALSE
-	){
+continuity <- function(srcData, mapFields, timeFields, timeout = GAP > timeout, boundaryName = "episode", archipelago = TRUE, show.all = FALSE, debug	= FALSE){
 #' Continuity Creator
 #'
 #'  \code{continuity} is conceptually based on the \href{https://www.red-gate.com/simple-talk/sql/t-sql-programming/the-sql-of-gaps-and-islands-in-sequences/}{'islands & gaps'} concept.
@@ -341,10 +316,17 @@ continuity <- function(srcData, mapFields, timeFields
 		} %>% unlist()
 	};
 
+	boundaryName	= as.character(rlang::enexpr(boundaryName));
 	mapFields			= sub_fn(mapFields);
 	orderFields		= c(mapFields, "start_idx");
-	optionalOutput= c(i	= "ISLAND", lb = sprintf("%s_start_idx", boundaryName), ub	= sprintf("%s_end_idx", boundaryName));
-	outputFields	= c(mapFields, "island_idx", if (archipelago) { optionalOutput } else { "" }) %>% unique();
+	optionalOutput= c(i	= "ISLAND"
+										, lb = sprintf("%s_start_idx", boundaryName)
+										, ub	= sprintf("%s_end_idx", boundaryName)
+										);
+	outputFields	= c(mapFields
+									 , "island_idx"
+									 , if (archipelago) { optionalOutput } else { "" }
+									 ) %>% unique();
 	timeout 			= substitute(timeout);
 	timeout 			= switch(class(timeout)
 										, "numeric" = rlang::expr(GAP > !!timeout)
@@ -429,7 +411,13 @@ continuity <- function(srcData, mapFields, timeFields
 		 # "session()" is a function delegate and is the ESSENTIAL part of the routine
 		 #	Note how it is contained WITHIN this specific code block and is designed for conditional increment
 		 #	See http://adv-r.had.co.nz/Functional-programming.html, section "Mutable State"
-		 session = function(tf) { if (tf) { ep_idx <<- ep_idx + 1; ep_idx } else { ep_idx <<- ep_idx; ep_idx } };
+		 session = function(tf) {
+		 		if (tf) {
+		 			ep_idx <<- ep_idx + 1; ep_idx
+		 		} else {
+		 			ep_idx <<- ep_idx; ep_idx
+		 		}
+		 	}
 		 sapply(eval(timeout), session)
 	}
 	, by = c(mapFields)
@@ -452,7 +440,9 @@ continuity <- function(srcData, mapFields, timeFields
 
 #' @export
 xform.basis_vector <- logic_map
+
 #' @export
 xform.sigmoid <- sigmoid
+
 #' @export
 make.islands <- continuity

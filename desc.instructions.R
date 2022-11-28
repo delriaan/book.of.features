@@ -1,28 +1,27 @@
-this.desc <- desc::desc();
-this.desc$print();
-
-people =
-		list(
+people <- { list(
 			Chionesu = person(
 				given = "Chionesu"
 				, family = "George"
-				, email = "cgeorge@alliancehealthplan.org"
+				, email = "sapienti.Dei@outlook.com"
 				, role = c("aut", "cre")
-			)
-			, DScience = person(
-				given = "Alliance Health Data Science Department"
-				, email = "DScience@alliancehealthplan.org"
-			)
-		);
+				)
+		)}
+this.desc <- desc::desc()
+this.desc$get_authors() -> .person
+this.desc$del(keys = "Authors@R")
 
-this.desc$set("Author", people$Chionesu)
-this.desc$set("Maintainer", people$DScience)
-this.desc$set("License", "Unicorn Overlords")
-this.desc$set("Description", "The Book of Features provides functions to help with feature-engineering tasks.")
-this.desc$set("Title", "Book of Features: Feature-engineering helpers")
-this.desc$set_dep("data.table")
-this.desc$set_dep("magrittr")
-this.desc$set_dep("purrr")
-this.desc$set_version("1.3.0")
+rlang::inject(this.desc$set("Author", !!people$Chionesu))
+rlang::inject(this.desc$set("Maintainer", !!people$Chionesu))
+this.desc$set_version("1.0.0")
+this.desc$set_dep("R (>= 4.1.0)")
+this.desc$set_list("Imports", c("book.of.utilities", "data.table", "magrittr", "stringi", "foreach"))
+this.desc$set(
+	Package = dir(dirname(getwd()), pattern = "feature")
+	, Title = "Book of Features"
+	, Description = "Package `book.of.features` provides ad-hoc feature-engineering utilities."
+	)
+
+paste(people$Chionesu$given, people$Chionesu$family, sep = " ") |> (usethis::use_proprietary_license)()
+this.desc$print();
 this.desc$write()
 

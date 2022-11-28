@@ -2,7 +2,7 @@
 % Please edit documentation in R/book.of.features.R
 \name{Book of Features Package}
 \alias{Book of Features Package}
-\title{Book of Features Overview}
+\title{Book of Features Package}
 \description{
-`book.of.features` provides functions to help with feature engineering on the fly
+\code{book.of.features} provides feature-engineering helper functions.
 }
