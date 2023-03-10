@@ -36,3 +36,10 @@ A serialized collection-list of partitions (windows), each window containing a s
 \description{
 \code{make.windows} takes as its first argument a series of values and produces a list of partitioned sets referred to as a "window"
 }
+\seealso{
+Other Data Generation: 
+\code{\link{bin.windows}()},
+\code{\link{continuity}()},
+\code{\link{make.date_time}()}
+}
+\concept{Data Generation}

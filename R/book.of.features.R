@@ -1,4 +1,4 @@
-#' @title Book of Features Package
+#' @title Book of Features Overview
 #'
 #' @description
 #' \code{book.of.features} provides feature-engineering helper functions.
@@ -9,7 +9,7 @@
 #' @importFrom stringi %s+%
 #' @importFrom foreach %do% %dopar%
 #'
-#' @name Book of Features Package
+#' @name book.of.features
 NULL
 # usethis::use_proprietary_license(copyright_holder = "Chionesu George")
 # if (dir(pattern = "yml") |> length() == 0){ usethis::use_pkgdown() }
@@ -136,50 +136,10 @@ logic_map <- function(fvec, avec = rep(1, length(fvec)), bvec = sort(unique(fvec
 			eval(action)
 		}
 }
-#
-make.windows <- function(series, window.size, increment = 1, post = eval, debug = FALSE, ...) {
-#' Serial Window Maker
-#'
-#' \code{make.windows} takes as its first argument a series of values and produces a list of partitioned sets referred to as a "window"
-#'
-#' @param series A list or vector object from which incremental subsets (windows) of a fixed size are chosen
-#' @param window.size (integer) The size of the subset (window) to select
-#' @param increment (integer) The number of elements by which iteration should advance
-#' @param post (function) A post-processing function on the return object having class "data.table" and single column "window"
-#' @param debug (logical | FALSE) When \code{TRUE}, additional information is printed to console for debugging purposes
-#'
-#' Sets are the result of forward-moving partitioning:
-#' \enumerate{
-#'   \item \code{window.size}: The size of each partition (W)
-#'   \item \code{increment}: The number of items to increment before selecting the next W items (W + i)
-#' }
-#'
-#' @return A serialized collection-list of partitions (windows), each window containing a subset of size \code{window.size}
-#'
 #' @export
-
-	if (length(series) == 1){
-		message(sprintf("Series length is one (1): repeating %s times ...", window.size));
-		return(data.table(window = list(rep.int(series, window.size))))
-	} else if (window.size > length(series)) {
-		message(sprintf(
-			"Window size (%s) > series length (%s): setting to series length"
-			, window.size
-			, length(series)
-			));
-
-		window.size = length(series)
-	};
-
-	output = list();
-	while(length(series) > 0){
-		.svec <- series[1:window.size]
-		output <- c(output, list(.svec[!is.na(.svec)]))
-		series <- series[-c(1:increment)]
-	}
-
-	post(output);
-}
+xform.basis_vector <- logic_map
+#' @export
+xform.sigmoid <- sigmoid
 #
 bin.windows <- function(i = 1, use.bin = NULL, min.factor = 1){
 #' Create Bins From Integer Factor
@@ -199,6 +159,8 @@ bin.windows <- function(i = 1, use.bin = NULL, min.factor = 1){
 #' @param min.factor (integer) The minimum factor of of \code{i} allowed when \code{use.bin} is less than or equal to one (1).  This becomes the bin size.
 #'
 #' @return A character vector the length of the input, as "binned" representations.  If the input is dimensional, an array of the same dimensions is returned
+#'
+#' @family Data Generation
 #'
 #' @export
 
@@ -273,9 +235,59 @@ make.date_time <- function(add_vec = 1:7, var_start = Sys.Date(), var_form = "%Y
 #' @param var_tz (string | ""): Timezone for the datetime values
 #' @param var_interval (string | "days"): The unit of time for \code{add_vec}
 #'
+#' @return A temporal vector
+#'
+#' @family Data Generation
+#'
 #' @export
 
 	stringi::stri_datetime_add(time = as.Date(var_start), value = add_vec, unit = var_interval, tz = var_tz) %>% format(var_form)
+}
+#
+make.windows <- function(series, window.size, increment = 1, post = eval, debug = FALSE, ...) {
+#' Serial Window Maker
+#'
+#' \code{make.windows} takes as its first argument a series of values and produces a list of partitioned sets referred to as a "window"
+#'
+#' @param series A list or vector object from which incremental subsets (windows) of a fixed size are chosen
+#' @param window.size (integer) The size of the subset (window) to select
+#' @param increment (integer) The number of elements by which iteration should advance
+#' @param post (function) A post-processing function on the return object having class "data.table" and single column "window"
+#' @param debug (logical | FALSE) When \code{TRUE}, additional information is printed to console for debugging purposes
+#'
+#' Sets are the result of forward-moving partitioning:
+#' \enumerate{
+#'   \item \code{window.size}: The size of each partition (W)
+#'   \item \code{increment}: The number of items to increment before selecting the next W items (W + i)
+#' }
+#'
+#' @return A serialized collection-list of partitions (windows), each window containing a subset of size \code{window.size}
+#'
+#' @family Data Generation
+#'
+#' @export
+
+	if (length(series) == 1){
+		message(sprintf("Series length is one (1): repeating %s times ...", window.size));
+		return(data.table(window = list(rep.int(series, window.size))))
+	} else if (window.size > length(series)) {
+		message(sprintf(
+			"Window size (%s) > series length (%s): setting to series length"
+			, window.size
+			, length(series)
+			));
+
+		window.size = length(series)
+	};
+
+	output = list();
+	while(length(series) > 0){
+		.svec <- series[1:window.size]
+		output <- c(output, list(.svec[!is.na(.svec)]))
+		series <- series[-c(1:increment)]
+	}
+
+	post(output);
 }
 #
 continuity <- function(srcData, mapFields, timeFields, timeout = GAP > timeout, boundaryName = "episode", archipelago = TRUE, show.all = FALSE, debug	= FALSE){
@@ -298,6 +310,8 @@ continuity <- function(srcData, mapFields, timeFields, timeout = GAP > timeout, 
 #' @param show.all (logical | FALSE): Should the output include all of the columns of the output?
 #'
 #' @return A data.table with columns <mapFields>, ..., timeOut, ISLAND, island_idx, where '...' is empty if `show.all` is FALSE
+#'
+#' @family Data Generation
 #'
 #' @export
 	# :: Helper function to split a string-literal argument
@@ -437,12 +451,21 @@ continuity <- function(srcData, mapFields, timeFields, timeout = GAP > timeout, 
 	][(ISLAND == 0), ISLAND := 1
 	][, .SD[, if (show.all) { c(1:(colnames(.SD) %>% length())) } else { outputFields }, with = FALSE] %>% unique()]
 }
-
-#' @export
-xform.basis_vector <- logic_map
-
-#' @export
-xform.sigmoid <- sigmoid
-
 #' @export
 make.islands <- continuity
+#
+make.quantiles <- function(x, ...){
+#' Quantiles Transformation
+#'
+#' \code{make.quantiles} is a wrapper for \code{\link[stats]{quantile}} replacing the input with calculated values.
+#'
+#' @param x The input vector
+#' @param ... (\code{\link[rlang]{dots_list}}): Additional arguments sent to \code{\link[stats]{quantile}}
+#'
+#' @return A quantile representation of the input
+#' @export
+  q.vec <- rlang::inject(quantile(x = x, ...));
+  idx <- sapply(x, function(i){ max(which(q.vec <= i))})
+
+  return(q.vec[idx])
+}

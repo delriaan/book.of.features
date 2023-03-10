@@ -36,3 +36,10 @@ A data.table with columns <mapFields>, ..., timeOut, ISLAND, island_idx, where '
 \description{
 \code{continuity} is conceptually based on the \href{https://www.red-gate.com/simple-talk/sql/t-sql-programming/the-sql-of-gaps-and-islands-in-sequences/}{'islands & gaps'} concept.
 }
+\seealso{
+Other Data Generation: 
+\code{\link{bin.windows}()},
+\code{\link{make.date_time}()},
+\code{\link{make.windows}()}
+}
+\concept{Data Generation}

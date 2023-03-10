@@ -25,3 +25,10 @@ A character vector the length of the input, as "binned" representations.  If the
 \description{
 \code{bin.windows} creates binned ranges based on the minimum factor of the integer input (\code{i}) or user-supplied value.
 }
+\seealso{
+Other Data Generation: 
+\code{\link{continuity}()},
+\code{\link{make.date_time}()},
+\code{\link{make.windows}()}
+}
+\concept{Data Generation}

@@ -23,6 +23,16 @@ make.date_time(
 
 \item{var_interval}{(string | "days"): The unit of time for \code{add_vec}}
 }
+\value{
+A temporal vector
+}
 \description{
 \code{make.date_time} serves as a wrapper for \code{\link[stringi]{stringi_datetime_add}}
 }
+\seealso{
+Other Data Generation: 
+\code{\link{bin.windows}()},
+\code{\link{continuity}()},
+\code{\link{make.windows}()}
+}
+\concept{Data Generation}
