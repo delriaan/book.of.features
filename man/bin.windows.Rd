@@ -4,7 +4,7 @@
 \alias{bin.windows}
 \title{Create Bins From Integer Factor}
 \usage{
-bin.windows(i = 1, use.bin = NULL, min.factor = 1)
+bin.windows(i = 1, use.bin = NULL, as.factor = FALSE, min.factor = 1)
 }
 \arguments{
 \item{i}{(integer[]) An integer scalar, vector, or n-dimensional object executed conditionally as follows:
@@ -17,10 +17,12 @@ bin.windows(i = 1, use.bin = NULL, min.factor = 1)
 
 \item{use.bin}{(integer) The bin size to use: should be greater than zero (0), overrides the internal effects of argument \code{min.factor}.}
 
+\item{as.factor}{(logical) Should the output be converted into a factor?}
+
 \item{min.factor}{(integer) The minimum factor of of \code{i} allowed when \code{use.bin} is less than or equal to one (1).  This becomes the bin size.}
 }
 \value{
-A character vector the length of the input, as "binned" representations.  If the input is dimensional, an array of the same dimensions is returned
+A character (or factor) vector the length of the input, as "binned" representations.  If the input is dimensional, an array of the same dimensions is returned
 }
 \description{
 \code{bin.windows} creates binned ranges based on the minimum factor of the integer input (\code{i}) or user-supplied value.

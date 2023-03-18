@@ -1,10 +1,10 @@
 Package: book.of.features
 Title: Book of Features
-Version: 1.0.2
+Version: 1.0.3
 Author: Chionesu George <sapienti.Dei@outlook.com> [aut, cre]
 Maintainer: Chionesu George <sapienti.Dei@outlook.com>
 Description: Package `book.of.features` provides ad-hoc feature-engineering utilities.
-Depends: R (>= 4.1.0), purrr(< 1.0.0)
+Depends: R (>= 4.1.0), purrr(< 1.0.0), vctrs(>= 0.6.0)
 Imports:
     book.of.utilities,
     data.table,

@@ -141,7 +141,7 @@ xform.basis_vector <- logic_map
 #' @export
 xform.sigmoid <- sigmoid
 #
-bin.windows <- function(i = 1, use.bin = NULL, min.factor = 1){
+bin.windows <- function(i = 1, use.bin = NULL, as.factor = FALSE, min.factor = 1){
 #' Create Bins From Integer Factor
 #'
 #' \code{bin.windows} creates binned ranges based on the minimum factor of the integer input (\code{i}) or user-supplied value.
@@ -156,9 +156,11 @@ bin.windows <- function(i = 1, use.bin = NULL, min.factor = 1){
 #'
 #' @param use.bin (integer) The bin size to use: should be greater than zero (0), overrides the internal effects of argument \code{min.factor}.
 #'
+#' @param as.factor (logical) Should the output be converted into a factor?
+#'
 #' @param min.factor (integer) The minimum factor of of \code{i} allowed when \code{use.bin} is less than or equal to one (1).  This becomes the bin size.
 #'
-#' @return A character vector the length of the input, as "binned" representations.  If the input is dimensional, an array of the same dimensions is returned
+#' @return A character (or factor) vector the length of the input, as "binned" representations.  If the input is dimensional, an array of the same dimensions is returned
 #'
 #' @family Data Generation
 #'
@@ -183,22 +185,22 @@ bin.windows <- function(i = 1, use.bin = NULL, min.factor = 1){
 						, suppressWarnings(purrr::keep(diff(this.bin) + this.bin + 1, ~.x <= max(this.bin, na.rm = TRUE)))
 						, max(this.bin, na.rm = TRUE) + 1
 						, Inf
-						) %>%
-						sort(decreasing = .dir) %>%
-						make.windows(2, 2) %>%
+						) |>
+						sort(decreasing = .dir) |>
+						make.windows(window.size = 2, increment = 2) %>%
 						data.table::data.table(purrr::map(., ~{
 							ifelse(
 								any(is.infinite(.x))
 								, ifelse(
 										.x[which(is.infinite(.x))] > 0
-										, c(">", "="[rlang::is_empty(use.bin)], " ") %>%
+										, c(">", "="[rlang::is_empty(use.bin)], " ") |>
 											paste(collapse = "") %s+% max(.x[!is.infinite(.x)])
-										, c("<", "="[rlang::is_empty(use.bin)], " ") %>%
+										, c("<", "="[rlang::is_empty(use.bin)], " ") |>
 											paste(collapse = "") %s+% min(.x[!is.infinite(.x)])
 										)
 								, paste(unlist(.x), collapse = " to ")
 								)
-							})) %>%
+							})) |>
 						data.table::setnames(c("win.vals", "label"));
 
 		.out = purrr::map_chr(j, ~{
@@ -212,12 +214,15 @@ bin.windows <- function(i = 1, use.bin = NULL, min.factor = 1){
 	}
 
 	if (rlang::is_empty(dim(i)) | rlang::has_length(dim(i), 1)){
-		func(as.vector(i))
+		.out = func(as.vector(i))
+		if (as.factor){ factor(.out, levels = attr(.out, "bin.map")$label, ordered = TRUE) } else { .out }
 	} else {
 		.dns = dimnames(i);
 		.dms = dim(i);
 
-		.out = apply(X = i, MARGIN = length(.dms), FUN = bin.windows, use.bin = use.bin, min.factor = min.factor, simplify = TRUE) ;
+		.out = apply(X = i, MARGIN = length(.dms), FUN = bin.windows
+								 , use.bin = use.bin, min.factor = min.factor, as.factor = as.factor, simplify = TRUE);
+
 		if (length(.dms) == 2){ .out <- t(.out) }
 
 		as.array(.out) %>% structure(dim = .dms, dimnames = .dns);
@@ -245,15 +250,16 @@ make.date_time <- function(add_vec = 1:7, var_start = Sys.Date(), var_form = "%Y
 }
 #
 make.windows <- function(series, window.size, increment = 1, post = eval, debug = FALSE, ...) {
-#' Serial Window Maker
+#' Serial Window Maker (DEPRECATED)
 #'
-#' \code{make.windows} takes as its first argument a series of values and produces a list of partitioned sets referred to as a "window"
+#' \code{make.windows} is a wrapper for \code{\link[slider]{slide}}
 #'
 #' @param series A list or vector object from which incremental subsets (windows) of a fixed size are chosen
 #' @param window.size (integer) The size of the subset (window) to select
 #' @param increment (integer) The number of elements by which iteration should advance
 #' @param post (function) A post-processing function on the return object having class "data.table" and single column "window"
 #' @param debug (logical | FALSE) When \code{TRUE}, additional information is printed to console for debugging purposes
+#' @param ... Additional arguments sent to  \code{\link[slider]{slider}}
 #'
 #' Sets are the result of forward-moving partitioning:
 #' \enumerate{
@@ -267,27 +273,15 @@ make.windows <- function(series, window.size, increment = 1, post = eval, debug 
 #'
 #' @export
 
-	if (length(series) == 1){
-		message(sprintf("Series length is one (1): repeating %s times ...", window.size));
-		return(data.table(window = list(rep.int(series, window.size))))
-	} else if (window.size > length(series)) {
-		message(sprintf(
-			"Window size (%s) > series length (%s): setting to series length"
-			, window.size
-			, length(series)
-			));
-
-		window.size = length(series)
-	};
-
-	output = list();
-	while(length(series) > 0){
-		.svec <- series[1:window.size]
-		output <- c(output, list(.svec[!is.na(.svec)]))
-		series <- series[-c(1:increment)]
-	}
-
-	post(output);
+	slider::slide(
+		.x = series
+		, .f = post
+		, .before = ifelse(window.size < 0L, window.size - 1, 0L)
+		, .after = ifelse(window.size > 0L, window.size - 1, 0L)
+		, .step = increment
+		, ...
+		) |>
+	purrr::compact()
 }
 #
 continuity <- function(srcData, mapFields, timeFields, timeout = GAP > timeout, boundaryName = "episode", archipelago = TRUE, show.all = FALSE, debug	= FALSE){
@@ -379,11 +373,10 @@ continuity <- function(srcData, mapFields, timeFields, timeout = GAP > timeout, 
 		    	.choices = c(data.table::shift(start_idx, fill = last(start_idx) + eval(timeout), type = "lead")) %::% c(start_idx + eval(timeout))
 		    	# output value test
 		    	ifelse(.logi_vec, .choices$true, .choices$false)
-		   	} else { stop_idx }
-			}
-		, rec_idx = sequence(length(start_idx))
-		, last_rec_idx = rep(FALSE, length(start_idx))
-		)
+		   	} else { stop_idx } }
+			, rec_idx = sequence(length(start_idx))
+			, last_rec_idx = rep(FALSE, length(start_idx))
+			)
 	, by = c(mapFields)
 	];
 
@@ -404,7 +397,8 @@ continuity <- function(srcData, mapFields, timeFields, timeout = GAP > timeout, 
 		};
 
 	# :: Create new columns holding the difference of from/to dates, and the resulting values for ISLAND and GAP
-	outData[, seg := 1:length(rec_idx), by = c(mapFields)
+	outData[
+	, seg := 1:length(rec_idx), by = c(mapFields)
 	][, data.table::setorderv(.SD, orderFields)
 	][ # Gap precursor: column-wise sequential differences within start and stop indices using `diff()`
 	, c("delta_start", "delta_stop") := purrr::map(list(start_idx, stop_idx), ~diff(c(data.table::first(.x), .x)))

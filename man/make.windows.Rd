@@ -2,7 +2,7 @@
 % Please edit documentation in R/book.of.features.R
 \name{make.windows}
 \alias{make.windows}
-\title{Serial Window Maker}
+\title{Serial Window Maker (DEPRECATED)}
 \usage{
 make.windows(
   series,
@@ -22,7 +22,9 @@ make.windows(
 
 \item{post}{(function) A post-processing function on the return object having class "data.table" and single column "window"}
 
-\item{debug}{(logical | FALSE) When \code{TRUE}, additional information is printed to console for debugging purposes
+\item{debug}{(logical | FALSE) When \code{TRUE}, additional information is printed to console for debugging purposes}
+
+\item{...}{Additional arguments sent to  \code{\link[slider]{slider}}
 
 Sets are the result of forward-moving partitioning:
 \enumerate{
@@ -34,7 +36,7 @@ Sets are the result of forward-moving partitioning:
 A serialized collection-list of partitions (windows), each window containing a subset of size \code{window.size}
 }
 \description{
-\code{make.windows} takes as its first argument a series of values and produces a list of partitioned sets referred to as a "window"
+\code{make.windows} is a wrapper for \code{\link[slider]{slide}}
 }
 \seealso{
 Other Data Generation: 
