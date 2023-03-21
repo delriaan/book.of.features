@@ -32,7 +32,6 @@ A temporal vector
 \seealso{
 Other Data Generation: 
 \code{\link{bin.windows}()},
-\code{\link{continuity}()},
 \code{\link{make.windows}()}
 }
 \concept{Data Generation}

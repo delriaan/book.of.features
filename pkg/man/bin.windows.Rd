@@ -29,7 +29,6 @@ A character (or factor) vector the length of the input, as "binned" representati
 }
 \seealso{
 Other Data Generation: 
-\code{\link{continuity}()},
 \code{\link{make.date_time}()},
 \code{\link{make.windows}()}
 }
