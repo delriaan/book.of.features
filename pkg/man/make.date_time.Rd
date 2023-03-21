@@ -27,7 +27,7 @@ make.date_time(
 A temporal vector
 }
 \description{
-\code{make.date_time} serves as a wrapper for \code{\link[stringi]{stringi_datetime_add}}
+\code{make.date_time} serves as a wrapper for \code{\link[stringi]{stri_datetime_add}}
 }
 \seealso{
 Other Data Generation: 

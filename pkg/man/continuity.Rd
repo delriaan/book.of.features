@@ -11,8 +11,7 @@ continuity(
   timeout = GAP > timeout,
   boundaryName = "episode",
   archipelago = TRUE,
-  show.all = FALSE,
-  debug = FALSE
+  show.all = FALSE
 )
 }
 \arguments{
@@ -22,13 +21,13 @@ continuity(
 
 \item{timeFields}{(string): A comma-separated string literal containing field names to use as "start" and "stop" temporal indices.  If only one value is given, that value will be repeated as the "stop" index}
 
+\item{timeout}{The largest allowable 'gap' in a series of time values before a new 'island' begins: can be a quoted expression that conditionally determines the value.}
+
 \item{boundaryName}{(string): The name root of the boundary column names (e.g., "episode" -> "episode_start_idx", "episode_end_idx")}
 
 \item{archipelago}{(logical | TRUE): Should the output include the islands and gaps generated?}
 
 \item{show.all}{(logical | FALSE): Should the output include all of the columns of the output?}
-
-\item{timeout:}{The largest allowable 'gap' in a series of time values before a new 'island' begins: can be a quoted expression that conditionally determines the value.}
 }
 \value{
 A data.table with columns <mapFields>, ..., timeOut, ISLAND, island_idx, where '...' is empty if `show.all` is FALSE

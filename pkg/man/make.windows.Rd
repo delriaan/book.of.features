@@ -24,7 +24,7 @@ make.windows(
 
 \item{debug}{(logical | FALSE) When \code{TRUE}, additional information is printed to console for debugging purposes}
 
-\item{...}{Additional arguments sent to  \code{\link[slider]{slider}}
+\item{...}{Additional arguments sent to  \code{\link[slider]{slide}}
 
 Sets are the result of forward-moving partitioning:
 \enumerate{

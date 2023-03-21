@@ -3,11 +3,12 @@
 #' @description
 #' \code{book.of.features} provides feature-engineering helper functions.
 #'
-#' @importFrom book.of.utilities %bin% %::% %?% %??% factor.int
-#' @importFrom data.table %like% %ilike% like %between%
-#' @importFrom magrittr %>%
+#' @importFrom book.of.utilities %bin% factor.int %tf%
 #' @importFrom stringi %s+%
-#' @importFrom foreach %do% %dopar%
+#' @importFrom magrittr %>%
+#' @importFrom stats quantile
+#' @importFrom utils str
+#' @import data.table
 #'
 #' @name book.of.features
 NULL
@@ -15,7 +16,7 @@ NULL
 # if (dir(pattern = "yml") |> length() == 0){ usethis::use_pkgdown() }
 # pkgdown::build_site()
 
-sigmoid <- function(input, family = "logistic", center = mean, debug = FALSE, ...){
+sigmoid <- function(input, family = "logistic", center = mean, ...){
 #' {0,N} Sigmoid Scaler
 #'
 #' \code{sigmoid} Scales the input to a range of {0,N} using the sigmoid function
@@ -49,8 +50,6 @@ sigmoid <- function(input, family = "logistic", center = mean, debug = FALSE, ..
 
 	input = as.complex(as.numeric(unlist(input)));
 
-	if (debug) (print(list(...)));
-
 	# Initialize the internal environment with defaults
 	L <- K <- A <- C <- Q <- B <- v <- 1;
 
@@ -77,22 +76,19 @@ sigmoid <- function(input, family = "logistic", center = mean, debug = FALSE, ..
 	if (all(Im(output) == 0)){ Re(output) } else { output }
 }
 #
-logic_map <- function(fvec, avec = rep(1, length(fvec)), bvec = sort(unique(fvec)), cmp_test = `==`, logical.out = FALSE, regex = FALSE, chatty = FALSE){
+logic_map <- function(fvec, avec = rep(1, length(fvec)), bvec = sort(unique(fvec)), logical.out = FALSE, regex = FALSE, chatty = FALSE){
 #' Logical Test Occurrence Map
 #'
 #' \code{logic_map} conducts a test of a vector or list of tuples against a vector of unique values. The test can be one of \code{identity}, pattern-matching, or some custom function with Boolean output. Parallelism is supported with a registered \code{\link[foreach]{foreach}} backend.  If no backend is registered, \code{\link[foreach]{registerDoSEQ}} is used as a default.
 #'
 #' @param fvec (vector) Values to be tested: may be a simple vector or a list of tuples
-#' @param avec (vector) Optional vector of numeric values to project \emph{a}cross the basis vector
+#' @param avec (vector) Optional vector of numeric values to project \emph{a}cross the result (must be the same length as \code{fvec} or length-1)
 #' @param bvec (vector) A vector of unique values forming the basis of comparison  If given as a named list, the output will preserve the names when creating columns; otherwise, the values of \code{bvec} are used as the names.
-#'
-#' @param cmp_test (function|\code{`==`}) A two-valued function resulting in a logical vector.  The first argument \strong{must} be vectorized over \code{bvec} and able to compare each element in \code{fvec} to \code{bvec}. If \code{'test'} is provided as the argument, the same functionality as setting argument \code{regex} to \code{TRUE} is invoked.
 #' @param logical.out (logical, vector) When \code{TRUE}, the output consists of logical values; when a vector of length two (2) is supplied, the first value returns on \code{FALSE}, the second on \code{TRUE}; otherwise, the values of \code{avec} are used.  If the vector form is used, only the first value at each position is used to supply the choices.
 #' @param regex (logical | \code{FALSE}) When \code{TRUE}, argument \code{bvec} is interpreted as patterns against which case-sensitive matches are sought are attempted.  This forces the value of \code{test} to invoke \code{\link[data.table]{like}}.
 #' @param chatty (logical | \code{FALSE}) When \code{TRUE}, additional information is printed to console
 #'
-#' @section \strong{Restriction}:
-#' \code{length(fvec) == length(avec)}
+#' @note \code{length(fvec) == length(avec)}
 #'
 #' @section \strong{Warning}:
 #' When combining with the source object, \code{fvec} must \strong{NOT} be sorted during the function call or the values will not map correctly in the output.
@@ -101,45 +97,43 @@ logic_map <- function(fvec, avec = rep(1, length(fvec)), bvec = sort(unique(fvec
 #'
 #' @export
 
-	if (!foreach::getDoParRegistered()){ foreach::registerDoSEQ() }
-	if (regex|(identical(cmp_test, "regex"))){
-		cmp_test <- if (regex){ function(bv, fv){ purrr::map_lgl(bv, ~any(fv %like% .x)) }} else { `==` }
-	}
-	out.names = if (is.null(names(bvec))){ as.character(bvec) } else { names(bvec) }
+	bvec <- sort(unique(unlist(bvec)));
 
-	bvec = purrr::reduce(bvec, c);
+	if (is.null(names(bvec))){ names(bvec) <- bvec }
 
 	if (chatty){ print(list(fvec = c(fvec), avec = c(avec), bvec = bvec, out.names = out.names)) }
 
-	foreach::foreach(
-		fv = fvec
-		, av = avec
-		, .combine = rbind
-		, .multicombine = TRUE
-		, .final = function(i){
-				# The default value to use when no levels of 'bvec' are found in 'fvec'
-				.dflt = ifelse(logical.out, FALSE, 0);
-				if (all(i == 0)){ i <- rep.int(.dflt, length(out.names) * nrow(i)) %>% matrix(ncol = length(out.names)) }
+	action <- { rlang::exprs(
+		# logical.out = TRUE; `==` ~ <default>
+		`100` = outer(fvec, bvec, `==`)
 
-				# data.table conversion
-				if (!data.table::is.data.table(i)){ i <- data.table::as.data.table(i) }
-				data.table::setnames(i, out.names)
-			}
-		, .packages = c("data.table", "magrittr", "purrr")
-		, .export = c("logical.out", "bvec", "out.names", "cmp_test")
-		) %dopar% {
-			action = rlang::exprs({
-				if (logical.out) { c(FALSE, TRUE) } else { c(0, av) }}[cmp_test(bvec, fv) + 1]
-				, sapply(logical.out, first)[cmp_test(bvec, fv) + 1]
-				, c(0, 1)[cmp_test(bvec, fv) + 1]
-				)[[min(which(c(is.logical(logical.out), length(logical.out) >= 2, TRUE)))]];
-			eval(action)
-		}
+		, # avec ~ logical.out = FALSE; `==` ~ <default>
+		`000` = outer(fvec, bvec, `==`) * avec
+
+		, # logical.out = TRUE, {purrr::map; `%in% } ~ fvec[]
+		`101` = purrr::map(fvec, ~rlang::set_names(bvec %in% .x, bvec)) |> purrr::reduce(rbind)
+
+		, # avec ~ logical.out = FALSE; {purrr::map; `%in% } ~ fvec[]
+		`001` = purrr::map(fvec, ~rlang::set_names(bvec %in% .x, bvec)) |> purrr::reduce(rbind) * avec
+
+		, # logical.out = TRUE; stringi::stri_detect_regex ~ regex
+		`110` = outer(fvec, bvec, stringi::stri_detect_regex)
+
+		, # avec ~ logical.out = FALSE; `stringi::stri_detect_regex ~ regex
+		`010` = outer(fvec, bvec, stringi::stri_detect_regex) * avec
+
+		, # logical.out = TRUE, stringi::stri_detect_regex ~ regex, {purrr::map; `%in% } ~ fvec[]
+		`111` = purrr::map(fvec, ~{ fv = .x; purrr::map_lgl(bvec, ~stringi::stri_detect_regex(fv, .x) |> any()) }) |>
+													 	purrr::reduce(rbind)
+
+		, # avec ~ logical.out = FALSE, stringi::stri_detect_regex ~ regex, {purrr::map; `%in% } ~ fvec[]
+		`011` = purrr::map(fvec, ~{ fv = .x; purrr::map_lgl(bvec, ~stringi::stri_detect_regex(fv, .x) |> any()) }) |>
+													 	purrr::reduce(rbind)* avec
+		)[paste(as.numeric(logical.out), as.numeric(regex), as.numeric(is.list(fvec)), sep = "")]
+	}
+
+	eval(action[[1]])
 }
-#' @export
-xform.basis_vector <- logic_map
-#' @export
-xform.sigmoid <- sigmoid
 #
 bin.windows <- function(i = 1, use.bin = NULL, as.factor = FALSE, min.factor = 1){
 #' Create Bins From Integer Factor
@@ -176,7 +170,7 @@ bin.windows <- function(i = 1, use.bin = NULL, as.factor = FALSE, min.factor = 1
 				} else { ii }
 
 		this.bin = if (rlang::is_empty(use.bin)){
-			factor.int(max(i, na.rm = TRUE)) %>% purrr::keep(~(.x >= min.factor)|(rlang::has_length(i, 2)))
+			factor.int(max(i, na.rm = TRUE)) |> purrr::keep(~(.x >= min.factor)|(rlang::has_length(i, 2)))
 		} else { unique(sort(j %bin% use.bin)) }
 
 		.map = c(-Inf
@@ -187,21 +181,21 @@ bin.windows <- function(i = 1, use.bin = NULL, as.factor = FALSE, min.factor = 1
 						, Inf
 						) |>
 						sort(decreasing = .dir) |>
-						make.windows(window.size = 2, increment = 2) %>%
-						data.table::data.table(purrr::map(., ~{
-							ifelse(
-								any(is.infinite(.x))
-								, ifelse(
-										.x[which(is.infinite(.x))] > 0
-										, c(">", "="[rlang::is_empty(use.bin)], " ") |>
-											paste(collapse = "") %s+% max(.x[!is.infinite(.x)])
-										, c("<", "="[rlang::is_empty(use.bin)], " ") |>
-											paste(collapse = "") %s+% min(.x[!is.infinite(.x)])
-										)
-								, paste(unlist(.x), collapse = " to ")
-								)
-							})) |>
-						data.table::setnames(c("win.vals", "label"));
+						make.windows(window.size = 2, increment = 2)
+
+		.map = data.table(purrr::map(.map, ~{
+			ifelse(
+				any(is.infinite(.x))
+				, ifelse(
+						.x[which(is.infinite(.x))] > 0
+						, c(">", "="[rlang::is_empty(use.bin)], " ") |>
+							paste(collapse = "") %s+% max(.x[!is.infinite(.x)])
+						, c("<", "="[rlang::is_empty(use.bin)], " ") |>
+							paste(collapse = "") %s+% min(.x[!is.infinite(.x)])
+						)
+				, paste(unlist(.x), collapse = " to ")
+				)
+			})) |> setnames(c("win.vals", "label"));
 
 		.out = purrr::map_chr(j, ~{
 			.val = .x;
@@ -225,14 +219,14 @@ bin.windows <- function(i = 1, use.bin = NULL, as.factor = FALSE, min.factor = 1
 
 		if (length(.dms) == 2){ .out <- t(.out) }
 
-		as.array(.out) %>% structure(dim = .dms, dimnames = .dns);
+		as.array(.out) |> structure(dim = .dms, dimnames = .dns);
 	}
 }
 #
 make.date_time <- function(add_vec = 1:7, var_start = Sys.Date(), var_form = "%Y-%m-%d 00:00:00", var_tz = "", var_interval = "days"){
 #' Date-Time Sequence Generator
 #'
-#' \code{make.date_time} serves as a wrapper for \code{\link[stringi]{stringi_datetime_add}}
+#' \code{make.date_time} serves as a wrapper for \code{\link[stringi]{stri_datetime_add}}
 #'
 #' @param add_vec (numeric | c(1:7)): Vector of integer values to add
 #' @param var_start (datetime | Sys.Date()): Vector of integer values used to generate datetime results
@@ -246,7 +240,7 @@ make.date_time <- function(add_vec = 1:7, var_start = Sys.Date(), var_form = "%Y
 #'
 #' @export
 
-	stringi::stri_datetime_add(time = as.Date(var_start), value = add_vec, unit = var_interval, tz = var_tz) %>% format(var_form)
+	stringi::stri_datetime_add(time = as.Date(var_start), value = add_vec, unit = var_interval, tz = var_tz) |> format(var_form)
 }
 #
 make.windows <- function(series, window.size, increment = 1, post = eval, debug = FALSE, ...) {
@@ -259,7 +253,7 @@ make.windows <- function(series, window.size, increment = 1, post = eval, debug 
 #' @param increment (integer) The number of elements by which iteration should advance
 #' @param post (function) A post-processing function on the return object having class "data.table" and single column "window"
 #' @param debug (logical | FALSE) When \code{TRUE}, additional information is printed to console for debugging purposes
-#' @param ... Additional arguments sent to  \code{\link[slider]{slider}}
+#' @param ... Additional arguments sent to  \code{\link[slider]{slide}}
 #'
 #' Sets are the result of forward-moving partitioning:
 #' \enumerate{
@@ -284,7 +278,7 @@ make.windows <- function(series, window.size, increment = 1, post = eval, debug 
 	purrr::compact()
 }
 #
-continuity <- function(srcData, mapFields, timeFields, timeout = GAP > timeout, boundaryName = "episode", archipelago = TRUE, show.all = FALSE, debug	= FALSE){
+continuity <- function(srcData, mapFields, timeFields, timeout = GAP > timeout, boundaryName = "episode", archipelago = TRUE, show.all = FALSE){
 #' Continuity Creator
 #'
 #'  \code{continuity} is conceptually based on the \href{https://www.red-gate.com/simple-talk/sql/t-sql-programming/the-sql-of-gaps-and-islands-in-sequences/}{'islands & gaps'} concept.
@@ -295,7 +289,7 @@ continuity <- function(srcData, mapFields, timeFields, timeout = GAP > timeout, 
 #'
 #' @param timeFields (string): A comma-separated string literal containing field names to use as "start" and "stop" temporal indices.  If only one value is given, that value will be repeated as the "stop" index
 #'
-#' @param timeout: The largest allowable 'gap' in a series of time values before a new 'island' begins: can be a quoted expression that conditionally determines the value.
+#' @param timeout The largest allowable 'gap' in a series of time values before a new 'island' begins: can be a quoted expression that conditionally determines the value.
 #'
 #' @param boundaryName (string): The name root of the boundary column names (e.g., "episode" -> "episode_start_idx", "episode_end_idx")
 #'
@@ -310,6 +304,7 @@ continuity <- function(srcData, mapFields, timeFields, timeout = GAP > timeout, 
 #' @export
 	# :: Helper function to split a string-literal argument
 	sub_fn = function(i){ stringi::stri_split_regex(i, "[,; ]", simplify = TRUE, omit_empty = TRUE) %>% as.vector() };
+	debug = FALSE;
 
 	# :: Helper function to transform date types and factors into integers
 	dt.check_fn	= function(i){
@@ -345,15 +340,15 @@ continuity <- function(srcData, mapFields, timeFields, timeout = GAP > timeout, 
 
 	# :: When only one value exists after parsing argument `timelineFields`, set `stop_idx` to a forward-shifted version of the same field plus the value of `eval(timeout)`
 	timeFields = sub_fn(timeFields) %>% as.vector();
-	data.table::setattr(timeFields, "is_single", length(timeFields) == 1);
+	setattr(timeFields, "is_single", length(timeFields) == 1);
 
-	outData = data.table::as.data.table(srcData);
+	outData = as.data.table(srcData);
 
 	# @note "start_idx" and "stop_idx" are essential fields
 	outData[, c("start_idx", "stop_idx") := purrr::map(.SD[, c(timeFields), with = FALSE], magrittr::freduce, list(dt.check_fn, unlist, as.vector))];
 
 	sanity.check = { c(
-		is_DT = data.table::is.data.table(outData)
+		is_DT = is.data.table(outData)
 		, start_idx.exists = "start_idx" %in% ls(outData)
 		, stop_idx.exists = "stop_idx" %in% ls(outData)
 		)}
@@ -363,14 +358,14 @@ continuity <- function(srcData, mapFields, timeFields, timeout = GAP > timeout, 
 		return("Execution failed.");
 	}
 
-	data.table::setkeyv(outData, eval(c(mapFields, timeFields %>% data.table::first())));
+	setkeyv(outData, eval(c(mapFields, timeFields %>% first())));
 
 	outData[
 	, # +{stop_idx, rec_idx, last_rec_idx} | Upper time index; record index; last record index flag
 		`:=`(
 			stop_idx = { if (attr(timeFields, "is_single")){
 		    	.logi_vec = diff(c(0, start_idx)) %>% as.integer() < eval(timeout);
-		    	.choices = c(data.table::shift(start_idx, fill = last(start_idx) + eval(timeout), type = "lead")) %::% c(start_idx + eval(timeout))
+		    	.choices = c(shift(start_idx, fill = last(start_idx) + eval(timeout), type = "lead")) %tf% c(start_idx + eval(timeout))
 		    	# output value test
 		    	ifelse(.logi_vec, .choices$true, .choices$false)
 		   	} else { stop_idx } }
@@ -390,7 +385,7 @@ continuity <- function(srcData, mapFields, timeFields, timeout = GAP > timeout, 
 				, optionalOutput	= optionalOutput
 				, outputFields		= outputFields
 				, outData_str			= outData %>% str
-				, outData_is.data.table = data.table::is.data.table(outData)
+				, outData_is.data.table = is.data.table(outData)
 				, outData_dim			= dim(outData)
 				)
 			);
@@ -399,9 +394,9 @@ continuity <- function(srcData, mapFields, timeFields, timeout = GAP > timeout, 
 	# :: Create new columns holding the difference of from/to dates, and the resulting values for ISLAND and GAP
 	outData[
 	, seg := 1:length(rec_idx), by = c(mapFields)
-	][, data.table::setorderv(.SD, orderFields)
+	][, setorderv(.SD, orderFields)
 	][ # Gap precursor: column-wise sequential differences within start and stop indices using `diff()`
-	, c("delta_start", "delta_stop") := purrr::map(list(start_idx, stop_idx), ~diff(c(data.table::first(.x), .x)))
+	, c("delta_start", "delta_stop") := purrr::map(list(start_idx, stop_idx), ~diff(c(first(.x), .x)))
 	, by = c(mapFields)
 	][
 	# Gap: From one record to the next in a partitioned, ordered set: { stop[n] - stop[n-1] } - [stop - start]
@@ -445,8 +440,6 @@ continuity <- function(srcData, mapFields, timeFields, timeout = GAP > timeout, 
 	][(ISLAND == 0), ISLAND := 1
 	][, .SD[, if (show.all) { c(1:(colnames(.SD) %>% length())) } else { outputFields }, with = FALSE] %>% unique()]
 }
-#' @export
-make.islands <- continuity
 #
 make.quantiles <- function(x, ...){
 #' Quantiles Transformation

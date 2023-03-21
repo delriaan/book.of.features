@@ -4,7 +4,7 @@
 \alias{sigmoid}
 \title{{0,N} Sigmoid Scaler}
 \usage{
-sigmoid(input, family = "logistic", center = mean, debug = FALSE, ...)
+sigmoid(input, family = "logistic", center = mean, ...)
 }
 \arguments{
 \item{input}{(numeric vector or coercible vector)}

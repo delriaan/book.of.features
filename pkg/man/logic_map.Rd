@@ -8,7 +8,6 @@ logic_map(
   fvec,
   avec = rep(1, length(fvec)),
   bvec = sort(unique(fvec)),
-  cmp_test = `==`,
   logical.out = FALSE,
   regex = FALSE,
   chatty = FALSE
@@ -17,11 +16,9 @@ logic_map(
 \arguments{
 \item{fvec}{(vector) Values to be tested: may be a simple vector or a list of tuples}
 
-\item{avec}{(vector) Optional vector of numeric values to project \emph{a}cross the basis vector}
+\item{avec}{(vector) Optional vector of numeric values to project \emph{a}cross the result (must be the same length as \code{fvec} or length-1)}
 
 \item{bvec}{(vector) A vector of unique values forming the basis of comparison  If given as a named list, the output will preserve the names when creating columns; otherwise, the values of \code{bvec} are used as the names.}
-
-\item{cmp_test}{(function|\code{`==`}) A two-valued function resulting in a logical vector.  The first argument \strong{must} be vectorized over \code{bvec} and able to compare each element in \code{fvec} to \code{bvec}. If \code{'test'} is provided as the argument, the same functionality as setting argument \code{regex} to \code{TRUE} is invoked.}
 
 \item{logical.out}{(logical, vector) When \code{TRUE}, the output consists of logical values; when a vector of length two (2) is supplied, the first value returns on \code{FALSE}, the second on \code{TRUE}; otherwise, the values of \code{avec} are used.  If the vector form is used, only the first value at each position is used to supply the choices.}
 
@@ -35,11 +32,9 @@ Invisibly, a data.table object, the column names being the values of \code{bvec}
 \description{
 \code{logic_map} conducts a test of a vector or list of tuples against a vector of unique values. The test can be one of \code{identity}, pattern-matching, or some custom function with Boolean output. Parallelism is supported with a registered \code{\link[foreach]{foreach}} backend.  If no backend is registered, \code{\link[foreach]{registerDoSEQ}} is used as a default.
 }
-\section{\strong{Restriction}}{
-
+\note{
 \code{length(fvec) == length(avec)}
 }
-
 \section{\strong{Warning}}{
 
 When combining with the source object, \code{fvec} must \strong{NOT} be sorted during the function call or the values will not map correctly in the output.
