@@ -65,4 +65,4 @@ X[5,2,3, 1]
 
 # debug(bin.windows)
 # undebug(bin.windows)
-# pkgdown::build_site()
+# pkgdown::build_site(pkg = "pkg", override = list(destination = "../docs"))
