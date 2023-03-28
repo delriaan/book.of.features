@@ -1,6 +1,6 @@
 Package: book.of.features
 Title: Book of Features
-Version: 1.0.4
+Version: 1.0.5
 Author: Chionesu George <sapienti.Dei@outlook.com> [aut, cre]
 Maintainer: Chionesu George <sapienti.Dei@outlook.com>
 Description: Package `book.of.features` provides ad-hoc feature-engineering utilities.

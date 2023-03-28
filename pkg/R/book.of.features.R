@@ -101,8 +101,6 @@ logic_map <- function(fvec, avec = rep(1, length(fvec)), bvec = sort(unique(fvec
 
 	if (is.null(names(bvec))){ names(bvec) <- bvec }
 
-	if (chatty){ print(list(fvec = c(fvec), avec = c(avec), bvec = bvec, out.names = out.names)) }
-
 	action <- { rlang::exprs(
 		# logical.out = TRUE; `==` ~ <default>
 		`100` = outer(fvec, bvec, `==`)
@@ -135,7 +133,7 @@ logic_map <- function(fvec, avec = rep(1, length(fvec)), bvec = sort(unique(fvec
 	eval(action[[1]])
 }
 #
-bin.windows <- function(i = 1, use.bin = NULL, as.factor = FALSE, min.factor = 1){
+bin.windows <- function(i = 1, use.bin = NULL, as.factor = FALSE, ...){
 #' Create Bins From Integer Factor
 #'
 #' \code{bin.windows} creates binned ranges based on the minimum factor of the integer input (\code{i}) or user-supplied value.
@@ -148,11 +146,9 @@ bin.windows <- function(i = 1, use.bin = NULL, as.factor = FALSE, min.factor = 1
 #' \item if n-dimensional, recursion along the last dimension given by \code{dim(i)} until a vector is detected
 #' }
 #'
-#' @param use.bin (integer) The bin size to use: should be greater than zero (0), overrides the internal effects of argument \code{min.factor}.
-#'
+#' @param use.bin The bin size to use: when empty, the smallest prime number or integer factor in \code{i} within the range of \code{i} is used.
 #' @param as.factor (logical) Should the output be converted into a factor?
-#'
-#' @param min.factor (integer) The minimum factor of of \code{i} allowed when \code{use.bin} is less than or equal to one (1).  This becomes the bin size.
+#' @param ... (not used)
 #'
 #' @return A character (or factor) vector the length of the input, as "binned" representations.  If the input is dimensional, an array of the same dimensions is returned
 #'
@@ -161,63 +157,52 @@ bin.windows <- function(i = 1, use.bin = NULL, as.factor = FALSE, min.factor = 1
 #' @export
 
 	.dir <- FALSE;
-	func = function(ii)	{
-		ii <- as.integer(ii)
 
-		j <- if (rlang::has_length(ii, 1)){ 0:abs(ii)
-				} else if (rlang::has_length(ii, 2)){
-					.dir <- ii[2] < ii[1]; seq(ii[1], ii[2], by = sign(ii[2]-ii[1]))
-				} else { ii }
+	force(use.bin)
 
-		this.bin = if (rlang::is_empty(use.bin)){
-			factor.int(max(i, na.rm = TRUE)) |> purrr::keep(~(.x >= min.factor)|(rlang::has_length(i, 2)))
-		} else { unique(sort(j %bin% use.bin)) }
-
-		.map = c(-Inf
-						, min(this.bin, na.rm = TRUE) - 1
-						, this.bin
-						, suppressWarnings(purrr::keep(diff(this.bin) + this.bin + 1, ~.x <= max(this.bin, na.rm = TRUE)))
-						, max(this.bin, na.rm = TRUE) + 1
-						, Inf
-						) |>
-						sort(decreasing = .dir) |>
-						make.windows(window.size = 2, increment = 2)
-
-		.map = data.table(purrr::map(.map, ~{
-			ifelse(
-				any(is.infinite(.x))
-				, ifelse(
-						.x[which(is.infinite(.x))] > 0
-						, c(">", "="[rlang::is_empty(use.bin)], " ") |>
-							paste(collapse = "") %s+% max(.x[!is.infinite(.x)])
-						, c("<", "="[rlang::is_empty(use.bin)], " ") |>
-							paste(collapse = "") %s+% min(.x[!is.infinite(.x)])
-						)
-				, paste(unlist(.x), collapse = " to ")
-				)
-			})) |> setnames(c("win.vals", "label"));
-
-		.out = purrr::map_chr(j, ~{
-			.val = .x;
-			.label = .map[, label[[which(purrr::map_lgl(win.vals, ~(.val %between% as.list(sort(.x)))))]]]
-			if (identical(.label, character())){ "oob"} else { .label }
-		});
-
-		attr(.out, "bin.map") <- .map
-		.out
+	if (rlang::is_empty(use.bin)){
+		bin_fact <- purrr::keep(unlist(book.of.utilities::factor.int(i)), `%in%`, `:`(min(i), max(i))) |> min(na.rm = TRUE)
+		use.bin <- if (rlang::is_empty(bin_fact)){
+				book.of.utilities::gen.primes(n = 1, domain = range(i), distinct = TRUE, random = FALSE)
+			} else { bin_fact }
 	}
 
+	func <- purrr::as_mapper(~{
+				orig_X <- .x
+				sort_X <- sort(orig_X, decreasing = .dir);
+				.breaks <- round(diff(range(sort_X)) / use.bin);
+				.out <- {
+					.map <- { data.table::data.table(
+											win.vals = sort_X
+											, label = if (.breaks == 1){ as.character(sort_X) } else {
+													cut(sort_X
+														, breaks = .breaks
+														, dig.lab = 0
+														, ordered_result = TRUE
+														, include.lowest = TRUE
+														, right = TRUE
+														)}
+											)[order(orig_X)]
+									}
+
+					data.table::setattr(.map$label, "bin.map", .map[, .(win.vals = list(range(win.vals))), by = label]) |>
+						data.table::setattr("bin.size", use.bin)
+				}
+
+				if (!as.factor){
+					if (is.factor(.out)){ levels(.out)[.out] } else { .out }
+				} else { .out }
+			})
+
 	if (rlang::is_empty(dim(i)) | rlang::has_length(dim(i), 1)){
-		.out = func(as.vector(i))
-		if (as.factor){ factor(.out, levels = attr(.out, "bin.map")$label, ordered = TRUE) } else { .out }
+		func(as.vector(i))
 	} else {
 		.dns = dimnames(i);
 		.dms = dim(i);
 
-		.out = apply(X = i, MARGIN = length(.dms), FUN = bin.windows
-								 , use.bin = use.bin, min.factor = min.factor, as.factor = as.factor, simplify = TRUE);
+		.out = purrr::array_branch(i, margin = length(.dms)) |> purrr::map(func);
 
-		if (length(.dms) == 2){ .out <- t(.out) }
+		if (length(.dms) == 2){ .out <- purrr::reduce(.out, cbind) }
 
 		as.array(.out) |> structure(dim = .dms, dimnames = .dns);
 	}

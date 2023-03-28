@@ -4,7 +4,7 @@
 \alias{bin.windows}
 \title{Create Bins From Integer Factor}
 \usage{
-bin.windows(i = 1, use.bin = NULL, as.factor = FALSE, min.factor = 1)
+bin.windows(i = 1, use.bin = NULL, as.factor = FALSE, ...)
 }
 \arguments{
 \item{i}{(integer[]) An integer scalar, vector, or n-dimensional object executed conditionally as follows:
@@ -15,11 +15,11 @@ bin.windows(i = 1, use.bin = NULL, as.factor = FALSE, min.factor = 1)
 \item if n-dimensional, recursion along the last dimension given by \code{dim(i)} until a vector is detected
 }}
 
-\item{use.bin}{(integer) The bin size to use: should be greater than zero (0), overrides the internal effects of argument \code{min.factor}.}
+\item{use.bin}{The bin size to use: when empty, the smallest prime number or integer factor in \code{i} within the range of \code{i} is used.}
 
 \item{as.factor}{(logical) Should the output be converted into a factor?}
 
-\item{min.factor}{(integer) The minimum factor of of \code{i} allowed when \code{use.bin} is less than or equal to one (1).  This becomes the bin size.}
+\item{...}{(not used)}
 }
 \value{
 A character (or factor) vector the length of the input, as "binned" representations.  If the input is dimensional, an array of the same dimensions is returned
