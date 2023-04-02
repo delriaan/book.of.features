@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">book.of.features</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.5</span>
       </span>
     </div>
 
@@ -44,7 +44,7 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bin.windows</span><span class="op">(</span>i <span class="op">=</span> <span class="fl">1</span>, use.bin <span class="op">=</span> <span class="cn">NULL</span>, as.factor <span class="op">=</span> <span class="cn">FALSE</span>, min.factor <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bin.windows</span><span class="op">(</span>i <span class="op">=</span> <span class="fl">1</span>, use.bin <span class="op">=</span> <span class="cn">NULL</span>, as.factor <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -58,15 +58,15 @@
 
 
 <dt>use.bin</dt>
-<dd><p>(integer) The bin size to use: should be greater than zero (0), overrides the internal effects of argument <code>min.factor</code>.</p></dd>
+<dd><p>The bin size to use: when empty, the smallest prime number or integer factor in <code>i</code> within the range of <code>i</code> is used.</p></dd>
 
 
 <dt>as.factor</dt>
 <dd><p>(logical) Should the output be converted into a factor?</p></dd>
 
 
-<dt>min.factor</dt>
-<dd><p>(integer) The minimum factor of of <code>i</code> allowed when <code>use.bin</code> is less than or equal to one (1).  This becomes the bin size.</p></dd>
+<dt>...</dt>
+<dd><p>(not used)</p></dd>
 
 </dl></div>
     <div id="value">
@@ -78,7 +78,6 @@
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other Data Generation: 
-<code><a href="continuity.html">continuity</a>()</code>,
 <code><a href="make.date_time.html">make.date_time</a>()</code>,
 <code><a href="make.windows.html">make.windows</a>()</code></p></div>
     </div>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">book.of.features</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.5</span>
       </span>
     </div>
 
@@ -48,7 +48,6 @@
 <span>  <span class="va">fvec</span>,</span>
 <span>  avec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">fvec</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  bvec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">fvec</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>  cmp_test <span class="op">=</span> <span class="va">`==`</span>,</span>
 <span>  logical.out <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  regex <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  chatty <span class="op">=</span> <span class="cn">FALSE</span></span>
@@ -62,15 +61,11 @@
 
 
 <dt>avec</dt>
-<dd><p>(vector) Optional vector of numeric values to project <em>a</em>cross the basis vector</p></dd>
+<dd><p>(vector) Optional vector of numeric values to project <em>a</em>cross the result (must be the same length as <code>fvec</code> or length-1)</p></dd>
 
 
 <dt>bvec</dt>
 <dd><p>(vector) A vector of unique values forming the basis of comparison  If given as a named list, the output will preserve the names when creating columns; otherwise, the values of <code>bvec</code> are used as the names.</p></dd>
-
-
-<dt>cmp_test</dt>
-<dd><p>(function|<code>`==`</code>) A two-valued function resulting in a logical vector.  The first argument <strong>must</strong> be vectorized over <code>bvec</code> and able to compare each element in <code>fvec</code> to <code>bvec</code>. If <code>'test'</code> is provided as the argument, the same functionality as setting argument <code>regex</code> to <code>TRUE</code> is invoked.</p></dd>
 
 
 <dt>logical.out</dt>
@@ -91,11 +86,9 @@
 
 <p>Invisibly, a data.table object, the column names being the values of <code>bvec</code> or names of <code>bvec</code> if they exist</p>
     </div>
-    <div id="restriction">
-    <h2><strong>Restriction</strong></h2>
-    
-
-<p><code>length(fvec) == length(avec)</code></p>
+    <div id="note">
+    <h2>Note</h2>
+    <p><code>length(fvec) == length(avec)</code></p>
     </div>
     <div id="warning">
     <h2><strong>Warning</strong></h2>
