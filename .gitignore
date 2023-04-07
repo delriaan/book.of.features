@@ -4,3 +4,6 @@
 .Ruserdata
 SANDBOX.R
 *.pper
+.Rhistory
+*.pper
+.Rproj.user/shared/notebooks/paths
