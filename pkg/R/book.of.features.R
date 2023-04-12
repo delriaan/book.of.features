@@ -133,7 +133,7 @@ logic_map <- function(fvec, avec = rep(1, length(fvec)), bvec = sort(unique(fvec
 	eval(action[[1]])
 }
 #
-bin.windows <- function(i = 1, use.bin = NULL, as.factor = FALSE, ...){
+bin.windows <- function(i = 1, use.bin = NULL, as.factor = FALSE, label_format = "<%s,%s>", silently = FALSE, ...){
 #' Create Bins From Integer Factor
 #'
 #' \code{bin.windows} creates binned ranges based on the minimum factor of the integer input (\code{i}) or user-supplied value.
@@ -141,24 +141,41 @@ bin.windows <- function(i = 1, use.bin = NULL, as.factor = FALSE, ...){
 #' @param i (integer[]) An integer scalar, vector, or n-dimensional object executed conditionally as follows:
 #' \itemize{
 #' \item if a vector of length = 1, a zero-based sequence up to \code{abs(i) } is used
-#' \item if a vector of length = 2, a sequence is created from the values in the order given
-#' \item if a vector of length >= 3, the raw values
-#' \item if n-dimensional, recursion along the last dimension given by \code{dim(i)} until a vector is detected
+#' \item if a vector of length = 2, a sequence is created from the values in the order given if the input is non-dimensional
+#' \item if a vector of length >= 3 or \code{i} is dimensional, the raw values coerced into a vector
 #' }
 #'
 #' @param use.bin The bin size to use: when empty, the smallest prime number or integer factor in \code{i} within the range of \code{i} is used.
 #' @param as.factor (logical) Should the output be converted into a factor?
+#' @param label_format (string) A two-argument string compatible with \code{\link[base]{sprintf}} that controls label output
+#' @param silently (logical) Should the output return invisibly?
 #' @param ... (not used)
 #'
 #' @return A character (or factor) vector the length of the input, as "binned" representations.  If the input is dimensional, an array of the same dimensions is returned
+#'
+#' @note Factor output is only available for heterogeneous data structures
 #'
 #' @family Data Generation
 #'
 #' @export
 
-	.dir <- FALSE;
+	if (rlang::has_length(i, 1)){
+		i <- matrix(0:i, ncol = 1)
+	} else if (rlang::has_length(i, 2) & rlang::is_empty(dim(i))){
+		i <- `:`(i[1], i[2])
+	}
+
+	if (rlang::is_empty(dim(i))){ dim(i) <- c(length(i), 1) }
+
+	output <- NULL;
+	.dnames <- dimnames(i);
+	.dims <- dim(i);
+	.class <- class(i);
+
+	i <- data.table::setattr(if ("data.frame" %in% .class){ unlist(i, use.names = FALSE) } else { c(i) }, "orig", i)
 
 	force(use.bin)
+	use.bin <- abs(use.bin)
 
 	if (rlang::is_empty(use.bin)){
 		bin_fact <- purrr::keep(unlist(book.of.utilities::factor.int(i)), `%in%`, `:`(min(i), max(i))) |> min(na.rm = TRUE)
@@ -169,43 +186,25 @@ bin.windows <- function(i = 1, use.bin = NULL, as.factor = FALSE, ...){
 
 	func <- purrr::as_mapper(~{
 				orig_X <- .x
-				sort_X <- sort(orig_X, decreasing = .dir);
-				.breaks <- round(diff(range(sort_X)) / use.bin);
-				.out <- {
-					.map <- { data.table::data.table(
-											win.vals = sort_X
-											, label = if (.breaks == 1){ as.character(sort_X) } else {
-													cut(sort_X
-														, breaks = .breaks
-														, dig.lab = 0
-														, ordered_result = TRUE
-														, include.lowest = TRUE
-														, right = TRUE
-														)}
-											)[order(orig_X)]
-									}
+				orig_X.bins <- book.of.utilities::`%bin%`(orig_X, use.bin)
+				sort_X <- sort(orig_X) |> unique();
+				.fmt <- .y
+				.map <- { data.table::data.table(
+										win.vals = orig_X
+										, label = cbind(orig_X.bins, orig_X.bins + use.bin - 1) |>
+												apply(1, \(x) sprintf(fmt = .fmt, sort(x)[1], sort(x)[2]))
+										)
+								}
 
-					data.table::setattr(.map$label, "bin.map", .map[, .(win.vals = list(range(win.vals))), by = label]) |>
-						data.table::setattr("bin.size", use.bin)
-				}
+				attr(.map$label, "bin.map") <- .map[order(win.vals), .(win.vals = list(range(win.vals))), by = label][, purrr::map(.SD, `attributes<-`, value = NULL)];
+				attr(.map$label, "bin.size") <- use.bin;
 
-				if (!as.factor){
-					if (is.factor(.out)){ levels(.out)[.out] } else { .out }
-				} else { .out }
-			})
+				if (as.factor){ factor(.map$label, levels = attr(.map$label, "bin.map")$label, ordered = TRUE) } else { .map$label }
+			});
 
-	if (rlang::is_empty(dim(i)) | rlang::has_length(dim(i), 1)){
-		func(as.vector(i))
-	} else {
-		.dns = dimnames(i);
-		.dms = dim(i);
+	output <- func(i, label_format) |> structure(dim = .dims, dimnames = .dnames)
 
-		.out = purrr::array_branch(i, margin = length(.dms)) |> purrr::map(func);
-
-		if (length(.dms) == 2){ .out <- purrr::reduce(.out, cbind) }
-
-		as.array(.out) |> structure(dim = .dms, dimnames = .dns);
-	}
+	if (silently){ invisible(output) } else { output }
 }
 #
 make.date_time <- function(add_vec = 1:7, var_start = Sys.Date(), var_form = "%Y-%m-%d 00:00:00", var_tz = "", var_interval = "days"){
@@ -269,12 +268,22 @@ make.quantiles <- function(x, ...){
 #' \code{make.quantiles} is a wrapper for \code{\link[stats]{quantile}} replacing the input with calculated values.
 #'
 #' @param x The input vector
-#' @param ... (\code{\link[rlang]{dots_list}}): Additional arguments sent to \code{\link[stats]{quantile}}
+#' @param ... (\code{\link[rlang]{dots_list}}): Additional arguments sent to \code{\link[stats]{quantile}}.  Defaults are as follows:\cr
+#' \itemize{
+#' \item{\code{probs = seq(0, 1, 0.25)}}
+#' \item{\code{na.rm = FALSE}}
+#' \item{\code{names = TRUE}}
+#' \item{\code{type = 7}}
+#' \item{\code{digits = 7}}
+#' \item{\code{...}}
+#' }
+#'
+#' @note Any indeterminate probabilities relative to the input will return \code{NA}
 #'
 #' @return A quantile representation of the input
+#'
 #' @export
   q.vec <- rlang::inject(quantile(x = x, ...));
-  idx <- sapply(x, function(i){ max(which(q.vec <= i))})
-
-  return(q.vec[idx])
+	.out <- outer(x, q.vec, `<=`)
+	apply(.out, 1, \(x, k) k[which(x) |> min()], colnames(.out))
 }
