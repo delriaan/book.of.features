@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">book.of.features</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
       </span>
     </div>
 
@@ -54,7 +54,13 @@
 
 
 <dt>...</dt>
-<dd><p>(<code><a href="https://rlang.r-lib.org/reference/list2.html" class="external-link">dots_list</a></code>): Additional arguments sent to <code><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></code></p></dd>
+<dd><p>(<code><a href="https://rlang.r-lib.org/reference/list2.html" class="external-link">dots_list</a></code>): Additional arguments sent to <code><a href="https://rdrr.io/r/stats/quantile.html" class="external-link">quantile</a></code>.  Defaults are as follows:<br></p><ul><li><p><code>probs = seq(0, 1, 0.25)</code></p></li>
+<li><p><code>na.rm = FALSE</code></p></li>
+<li><p><code>names = TRUE</code></p></li>
+<li><p><code>type = 7</code></p></li>
+<li><p><code>digits = 7</code></p></li>
+<li><p><code>...</code></p></li>
+</ul></dd>
 
 </dl></div>
     <div id="value">
@@ -62,6 +68,10 @@
     
 
 <p>A quantile representation of the input</p>
+    </div>
+    <div id="note">
+    <h2>Note</h2>
+    <p>Any indeterminate probabilities relative to the input will return <code>NA</code></p>
     </div>
 
   </div>

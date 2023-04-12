@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">book.of.features</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.0</span>
       </span>
     </div>
 
@@ -44,29 +44,43 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bin.windows</span><span class="op">(</span>i <span class="op">=</span> <span class="fl">1</span>, use.bin <span class="op">=</span> <span class="cn">NULL</span>, as.factor <span class="op">=</span> <span class="cn">FALSE</span>, min.factor <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bin.windows</span><span class="op">(</span></span>
+<span>  i <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  use.bin <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  as.factor <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  label_format <span class="op">=</span> <span class="st">"&lt;%s,%s&gt;"</span>,</span>
+<span>  silently <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>i</dt>
 <dd><p>(integer[]) An integer scalar, vector, or n-dimensional object executed conditionally as follows:</p><ul><li><p>if a vector of length = 1, a zero-based sequence up to <code>abs(i) </code> is used</p></li>
-<li><p>if a vector of length = 2, a sequence is created from the values in the order given</p></li>
-<li><p>if a vector of length &gt;= 3, the raw values</p></li>
-<li><p>if n-dimensional, recursion along the last dimension given by <code>dim(i)</code> until a vector is detected</p></li>
+<li><p>if a vector of length = 2, a sequence is created from the values in the order given if the input is non-dimensional</p></li>
+<li><p>if a vector of length &gt;= 3 or <code>i</code> is dimensional, the raw values coerced into a vector</p></li>
 </ul></dd>
 
 
 <dt>use.bin</dt>
-<dd><p>(integer) The bin size to use: should be greater than zero (0), overrides the internal effects of argument <code>min.factor</code>.</p></dd>
+<dd><p>The bin size to use: when empty, the smallest prime number or integer factor in <code>i</code> within the range of <code>i</code> is used.</p></dd>
 
 
 <dt>as.factor</dt>
 <dd><p>(logical) Should the output be converted into a factor?</p></dd>
 
 
-<dt>min.factor</dt>
-<dd><p>(integer) The minimum factor of of <code>i</code> allowed when <code>use.bin</code> is less than or equal to one (1).  This becomes the bin size.</p></dd>
+<dt>label_format</dt>
+<dd><p>(string) A two-argument string compatible with <code><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></code> that controls label output</p></dd>
+
+
+<dt>silently</dt>
+<dd><p>(logical) Should the output return invisibly?</p></dd>
+
+
+<dt>...</dt>
+<dd><p>(not used)</p></dd>
 
 </dl></div>
     <div id="value">
@@ -75,10 +89,13 @@
 
 <p>A character (or factor) vector the length of the input, as "binned" representations.  If the input is dimensional, an array of the same dimensions is returned</p>
     </div>
+    <div id="note">
+    <h2>Note</h2>
+    <p>Factor output is only available for heterogeneous data structures</p>
+    </div>
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p>Other Data Generation: 
-<code><a href="continuity.html">continuity</a>()</code>,
 <code><a href="make.date_time.html">make.date_time</a>()</code>,
 <code><a href="make.windows.html">make.windows</a>()</code></p></div>
     </div>

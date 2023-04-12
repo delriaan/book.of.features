@@ -9,11 +9,22 @@ make.quantiles(x, ...)
 \arguments{
 \item{x}{The input vector}
 
-\item{...}{(\code{\link[rlang]{dots_list}}): Additional arguments sent to \code{\link[stats]{quantile}}}
+\item{...}{(\code{\link[rlang]{dots_list}}): Additional arguments sent to \code{\link[stats]{quantile}}.  Defaults are as follows:\cr
+\itemize{
+\item{\code{probs = seq(0, 1, 0.25)}}
+\item{\code{na.rm = FALSE}}
+\item{\code{names = TRUE}}
+\item{\code{type = 7}}
+\item{\code{digits = 7}}
+\item{\code{...}}
+}}
 }
 \value{
 A quantile representation of the input
 }
 \description{
 \code{make.quantiles} is a wrapper for \code{\link[stats]{quantile}} replacing the input with calculated values.
+}
+\note{
+Any indeterminate probabilities relative to the input will return \code{NA}
 }

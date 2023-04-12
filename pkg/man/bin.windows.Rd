@@ -4,20 +4,30 @@
 \alias{bin.windows}
 \title{Create Bins From Integer Factor}
 \usage{
-bin.windows(i = 1, use.bin = NULL, as.factor = FALSE, ...)
+bin.windows(
+  i = 1,
+  use.bin = NULL,
+  as.factor = FALSE,
+  label_format = "<\%s,\%s>",
+  silently = FALSE,
+  ...
+)
 }
 \arguments{
 \item{i}{(integer[]) An integer scalar, vector, or n-dimensional object executed conditionally as follows:
 \itemize{
 \item if a vector of length = 1, a zero-based sequence up to \code{abs(i) } is used
-\item if a vector of length = 2, a sequence is created from the values in the order given
-\item if a vector of length >= 3, the raw values
-\item if n-dimensional, recursion along the last dimension given by \code{dim(i)} until a vector is detected
+\item if a vector of length = 2, a sequence is created from the values in the order given if the input is non-dimensional
+\item if a vector of length >= 3 or \code{i} is dimensional, the raw values coerced into a vector
 }}
 
 \item{use.bin}{The bin size to use: when empty, the smallest prime number or integer factor in \code{i} within the range of \code{i} is used.}
 
 \item{as.factor}{(logical) Should the output be converted into a factor?}
+
+\item{label_format}{(string) A two-argument string compatible with \code{\link[base]{sprintf}} that controls label output}
+
+\item{silently}{(logical) Should the output return invisibly?}
 
 \item{...}{(not used)}
 }
@@ -26,6 +36,9 @@ A character (or factor) vector the length of the input, as "binned" representati
 }
 \description{
 \code{bin.windows} creates binned ranges based on the minimum factor of the integer input (\code{i}) or user-supplied value.
+}
+\note{
+Factor output is only available for heterogeneous data structures
 }
 \seealso{
 Other Data Generation: 
