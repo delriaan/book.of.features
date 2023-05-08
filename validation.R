@@ -85,7 +85,7 @@ X[5,2,3, 1]
 #
 # make.quantiles() [PASS] ----
 # debug(make.quantiles)
-sample(900, 20) |> sort() %>% cbind(make.quantiles(., c(0:9/10)))
+sample(900, 20) |> (\(x) data.frame(x = x, q = make.quantiles(x, seq(0, 1, .1), as.factor = TRUE)))()
 #
 # sigmoid() [PASS] ----
 sample(100, 50) %>% cbind(sigmoid(.)) |> plot(xlab = "Input", ylab = "Transformed")

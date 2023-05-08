@@ -4,10 +4,12 @@
 \alias{make.quantiles}
 \title{Quantiles Transformation}
 \usage{
-make.quantiles(x, ...)
+make.quantiles(x, as.factor = FALSE, ...)
 }
 \arguments{
 \item{x}{The input vector}
+
+\item{as.factor}{(logical) Should the output be returned as a factor?}
 
 \item{...}{(\code{\link[rlang]{dots_list}}): Additional arguments sent to \code{\link[stats]{quantile}}.  Defaults are as follows:\cr
 \itemize{
@@ -23,8 +25,13 @@ make.quantiles(x, ...)
 A quantile representation of the input
 }
 \description{
-\code{make.quantiles} is a wrapper for \code{\link[stats]{quantile}} replacing the input with calculated values.
+\code{make.quantiles} is a wrapper for \code{\link[stats]{quantile}} replacing the input with calculated values.  Unmatched quantiles will return \code{NA} in order to match the length of the input vector.
 }
 \note{
 Any indeterminate probabilities relative to the input will return \code{NA}
+}
+\examples{
+sample(900, 20) |> (\(x) data.frame(x = x, q = book.of.features::make.quantiles(x, seq(0, 1, .1), as.factor = TRUE)))()
+sample(900, 20) |> (\(x) data.frame(x = x, q = book.of.features::make.quantiles(x, seq(0, 1, .1), as.factor = FALSE)))()
+
 }
