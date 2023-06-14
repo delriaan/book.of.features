@@ -7,7 +7,7 @@ Description: Package `book.of.features` provides ad-hoc feature-engineering util
 Depends: R (>= 4.1.0) 
 Imports:
     purrr(>= 1.0.0), 
-    book.of.utilities (>= 0.1.0),
+    book.of.utilities (>= 0.1.6),
     magrittr, 
     stringi, 
     rlang, 

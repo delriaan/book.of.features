@@ -13,15 +13,15 @@ make.date_time(
 )
 }
 \arguments{
-\item{add_vec}{(numeric | c(1:7)): Vector of integer values to add}
+\item{add_vec}{(numeric): Vector of integer values to add}
 
-\item{var_start}{(datetime | Sys.Date()): Vector of integer values used to generate datetime results}
+\item{var_start}{(datetime): Vector of integer values used to generate datetime results}
 
-\item{var_form}{(string | "\%Y-\%m-\%d 00:00:00"): Format for the datetime values}
+\item{var_form}{(string): Format for the datetime values}
 
-\item{var_tz}{(string | ""): Timezone for the datetime values}
+\item{var_tz}{(string): Timezone for the datetime values}
 
-\item{var_interval}{(string | "days"): The unit of time for \code{add_vec}}
+\item{var_interval}{(string): The unit of time for \code{add_vec}}
 }
 \value{
 A temporal vector

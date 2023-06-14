@@ -25,7 +25,13 @@
       <ul class="nav navbar-nav"><li>
   <a href="../reference/index.html">Reference</a>
 </li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/delriaan/book.of.features/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -35,7 +41,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Date-Time Sequence Generator</h1>
-    
+    <small class="dont-index">Source: <a href="https://github.com/delriaan/book.of.features/blob/HEAD/R/book.of.features.R" class="external-link"><code>R/book.of.features.R</code></a></small>
     <div class="hidden name"><code>make.date_time.Rd</code></div>
     </div>
 
@@ -56,23 +62,23 @@
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>add_vec</dt>
-<dd><p>(numeric | c(1:7)): Vector of integer values to add</p></dd>
+<dd><p>(numeric): Vector of integer values to add</p></dd>
 
 
 <dt>var_start</dt>
-<dd><p>(datetime | Sys.Date()): Vector of integer values used to generate datetime results</p></dd>
+<dd><p>(datetime): Vector of integer values used to generate datetime results</p></dd>
 
 
 <dt>var_form</dt>
-<dd><p>(string | "%Y-%m-%d 00:00:00"): Format for the datetime values</p></dd>
+<dd><p>(string): Format for the datetime values</p></dd>
 
 
 <dt>var_tz</dt>
-<dd><p>(string | ""): Timezone for the datetime values</p></dd>
+<dd><p>(string): Timezone for the datetime values</p></dd>
 
 
 <dt>var_interval</dt>
-<dd><p>(string | "days"): The unit of time for <code>add_vec</code></p></dd>
+<dd><p>(string): The unit of time for <code>add_vec</code></p></dd>
 
 </dl></div>
     <div id="value">

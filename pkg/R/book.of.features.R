@@ -1,21 +1,3 @@
-#' @title Book of Features Overview
-#'
-#' @description
-#' \code{book.of.features} provides feature-engineering helper functions.
-#'
-#' @importFrom book.of.utilities %bin% factor.int %tf%
-#' @importFrom stringi %s+%
-#' @importFrom magrittr %>%
-#' @importFrom stats quantile
-#' @importFrom utils str
-#' @import data.table
-#'
-#' @name book.of.features
-NULL
-# usethis::use_proprietary_license(copyright_holder = "Chionesu George")
-# if (dir(pattern = "yml") |> length() == 0){ usethis::use_pkgdown() }
-# pkgdown::build_site()
-
 sigmoid <- function(input, family = "logistic", center = mean, ...){
 #' {0,N} Sigmoid Scaler
 #'
@@ -25,9 +7,9 @@ sigmoid <- function(input, family = "logistic", center = mean, ...){
 #'
 #' Function arguments for each sigmoid family are as follows:
 #' \enumerate{
-#'   \item \code{"generalized"}: \code{list(A, K, C, Q, B, v)}
-#'   \item \code{"logistic"}: \code{list(L, K)}
-#'   \item \code{"gompertz"}: \code{list(A, B, C)}
+#'   \item{\code{"generalized"}: \code{list(A, K, C, Q, B, v)}}
+#'   \item{\code{"logistic"}: \code{list(L, K)}}
+#'   \item{\code{"gompertz"}: \code{list(A, B, C)}}
 #' }
 #' Families \code{tanh}, \code{atan}, and \code{guder}(mannian) only take the input as its argument
 #'
@@ -38,6 +20,13 @@ sigmoid <- function(input, family = "logistic", center = mean, ...){
 #' \item{\href{https://en.m.wikipedia.org/wiki/Gompertz_function}{Gompertz Function}}
 #' \item{\href{https://en.m.wikipedia.org/wiki/Gudermannian_function}{Gudermannian Function}}
 #' }
+#'
+#' @importFrom book.of.utilities %bin% factor.int %tf%
+#' @importFrom stringi %s+%
+#' @importFrom magrittr %>%
+#' @importFrom stats quantile
+#' @importFrom utils str
+#' @import data.table
 #'
 #' @param input (numeric vector or coercible vector)
 #' @param family (string | "logistic") The family of sigmoid equation to use: Currently, only "logistic", "generalized", and "gompertz" are supported
@@ -140,9 +129,9 @@ bin.windows <- function(i = 1, use.bin = NULL, as.factor = FALSE, label_format =
 #'
 #' @param i (integer[]) An integer scalar, vector, or n-dimensional object executed conditionally as follows:
 #' \itemize{
-#' \item if a vector of length = 1, a zero-based sequence up to \code{abs(i) } is used
-#' \item if a vector of length = 2, a sequence is created from the values in the order given if the input is non-dimensional
-#' \item if a vector of length >= 3 or \code{i} is dimensional, the raw values coerced into a vector
+#' \item{if a vector of length = 1, a zero-based sequence up to \code{abs(i) } is used}
+#' \item{if a vector of length = 2, a sequence is created from the values in the order given if the input is non-dimensional}
+#' \item{if a vector of length >= 3 or \code{i} is dimensional, the raw values coerced into a vector}
 #' }
 #'
 #' @param use.bin The bin size to use: when empty, the smallest prime number or integer factor in \code{i} within the range of \code{i} is used.
@@ -212,11 +201,11 @@ make.date_time <- function(add_vec = 1:7, var_start = Sys.Date(), var_form = "%Y
 #'
 #' \code{make.date_time} serves as a wrapper for \code{\link[stringi]{stri_datetime_add}}
 #'
-#' @param add_vec (numeric | c(1:7)): Vector of integer values to add
-#' @param var_start (datetime | Sys.Date()): Vector of integer values used to generate datetime results
-#' @param var_form (string | "\%Y-\%m-\%d 00:00:00"): Format for the datetime values
-#' @param var_tz (string | ""): Timezone for the datetime values
-#' @param var_interval (string | "days"): The unit of time for \code{add_vec}
+#' @param add_vec (numeric): Vector of integer values to add
+#' @param var_start (datetime): Vector of integer values used to generate datetime results
+#' @param var_form (string): Format for the datetime values
+#' @param var_tz (string): Timezone for the datetime values
+#' @param var_interval (string): The unit of time for \code{add_vec}
 #'
 #' @return A temporal vector
 #'
@@ -241,8 +230,8 @@ make.windows <- function(series, window.size, increment = 1, post = eval, debug 
 #'
 #' Sets are the result of forward-moving partitioning:
 #' \enumerate{
-#'   \item \code{window.size}: The size of each partition (W)
-#'   \item \code{increment}: The number of items to increment before selecting the next W items (W + i)
+#'   \item{\code{window.size}: The size of each partition (W)}
+#'   \item{\code{increment}: The number of items to increment before selecting the next W items (W + i)}
 #' }
 #'
 #' @return A serialized collection-list of partitions (windows), each window containing a subset of size \code{window.size}

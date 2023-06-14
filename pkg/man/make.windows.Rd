@@ -28,8 +28,8 @@ make.windows(
 
 Sets are the result of forward-moving partitioning:
 \enumerate{
-  \item \code{window.size}: The size of each partition (W)
-  \item \code{increment}: The number of items to increment before selecting the next W items (W + i)
+\item{\code{window.size}: The size of each partition (W)}
+\item{\code{increment}: The number of items to increment before selecting the next W items (W + i)}
 }}
 }
 \value{
