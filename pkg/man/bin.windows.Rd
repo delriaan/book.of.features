@@ -16,9 +16,9 @@ bin.windows(
 \arguments{
 \item{i}{(integer[]) An integer scalar, vector, or n-dimensional object executed conditionally as follows:
 \itemize{
-\item if a vector of length = 1, a zero-based sequence up to \code{abs(i) } is used
-\item if a vector of length = 2, a sequence is created from the values in the order given if the input is non-dimensional
-\item if a vector of length >= 3 or \code{i} is dimensional, the raw values coerced into a vector
+\item{if a vector of length = 1, a zero-based sequence up to \code{abs(i) } is used}
+\item{if a vector of length = 2, a sequence is created from the values in the order given if the input is non-dimensional}
+\item{if a vector of length >= 3 or \code{i} is dimensional, the raw values coerced into a vector}
 }}
 
 \item{use.bin}{The bin size to use: when empty, the smallest prime number or integer factor in \code{i} within the range of \code{i} is used.}

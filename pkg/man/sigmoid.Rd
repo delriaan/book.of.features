@@ -26,9 +26,9 @@ The input must contain positive and negative values when \code{centered == FALSE
 
 Function arguments for each sigmoid family are as follows:
 \enumerate{
-  \item \code{"generalized"}: \code{list(A, K, C, Q, B, v)}
-  \item \code{"logistic"}: \code{list(L, K)}
-  \item \code{"gompertz"}: \code{list(A, B, C)}
+\item{\code{"generalized"}: \code{list(A, K, C, Q, B, v)}}
+\item{\code{"logistic"}: \code{list(L, K)}}
+\item{\code{"gompertz"}: \code{list(A, B, C)}}
 }
 Families \code{tanh}, \code{atan}, and \code{guder}(mannian) only take the input as its argument
 }
