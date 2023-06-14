@@ -17,3 +17,7 @@ Imports:
 Encoding: UTF-8
 License: file LICENSE
 RoxygenNote: 7.2.3
+Roxygen: list(markdown = TRUE)
+VignetteBuilder: knitr
+URL: https://github.com/delriaan/book.of.features/, https://delriaan.github.io/book.of.features/
+
