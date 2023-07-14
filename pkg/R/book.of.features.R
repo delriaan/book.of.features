@@ -65,7 +65,7 @@ sigmoid <- function(input, family = "logistic", center = mean, ...){
 	if (all(Im(output) == 0)){ Re(output) } else { output }
 }
 #
-logic_map <- function(fvec, avec = rep(1, length(fvec)), bvec = sort(unique(fvec)), logical.out = FALSE, regex = FALSE, chatty = FALSE){
+logic_map <- function(fvec, avec = NULL, bvec = NULL, logical.out = FALSE, regex = FALSE, chatty = FALSE){
 #' Logical Test Occurrence Map
 #'
 #' \code{logic_map} conducts a test of a vector or list of tuples against a vector of unique values. The test can be one of \code{identity}, pattern-matching, or some custom function with Boolean output. Parallelism is supported with a registered \code{\link[foreach]{foreach}} backend.  If no backend is registered, \code{\link[foreach]{registerDoSEQ}} is used as a default.
@@ -86,9 +86,27 @@ logic_map <- function(fvec, avec = rep(1, length(fvec)), bvec = sort(unique(fvec
 #'
 #' @export
 
-	bvec <- sort(unique(unlist(bvec)));
+	if (rlang::is_empty(bvec)){
+		bvec <- sort(unique(fvec)) |> rlang::set_names()
+	} else {
+		bvec <- rlang::list2(!!!bvec[!duplicated(unlist(bvec))])
+	}
 
-	if (is.null(names(bvec))){ names(bvec) <- bvec }
+	if (any(names(bvec) == "")){
+		.names <- names(bvec)
+		.idx <- which(.names == "")
+		.names[.idx] <- bvec[.idx] |> unlist()
+		bvec <- rlang::set_names(bvec, .names)
+	}
+
+	bvec <- unlist(bvec)
+
+	if (rlang::is_empty(avec)){
+		avec <- rep(1, length(fvec))
+	}
+
+	# action <- c(rlang::is_empty(avec), rlang::is_empty(bvec), logical.out, regex) |>
+						# as.numeric() |> paste(sep = "") |> book.of.utilities::radix(b, dec)
 
 	action <- { rlang::exprs(
 		# logical.out = TRUE; `==` ~ <default>
@@ -98,10 +116,12 @@ logic_map <- function(fvec, avec = rep(1, length(fvec)), bvec = sort(unique(fvec
 		`000` = outer(fvec, bvec, `==`) * avec
 
 		, # logical.out = TRUE, {purrr::map; `%in% } ~ fvec[]
-		`101` = purrr::map(fvec, ~rlang::set_names(bvec %in% .x, bvec)) |> purrr::reduce(rbind)
+		`101` = purrr::map(fvec, \(x) rlang::set_names(bvec %in% x, bvec)) |>
+							purrr::reduce(rbind)
 
 		, # avec ~ logical.out = FALSE; {purrr::map; `%in% } ~ fvec[]
-		`001` = purrr::map(fvec, ~rlang::set_names(bvec %in% .x, bvec)) |> purrr::reduce(rbind) * avec
+		`001` = purrr::map(fvec, \(x) rlang::set_names(bvec %in% x, bvec)) |>
+							purrr::reduce(rbind) * avec
 
 		, # logical.out = TRUE; stringi::stri_detect_regex ~ regex
 		`110` = outer(fvec, bvec, stringi::stri_detect_regex)
@@ -110,12 +130,12 @@ logic_map <- function(fvec, avec = rep(1, length(fvec)), bvec = sort(unique(fvec
 		`010` = outer(fvec, bvec, stringi::stri_detect_regex) * avec
 
 		, # logical.out = TRUE, stringi::stri_detect_regex ~ regex, {purrr::map; `%in% } ~ fvec[]
-		`111` = purrr::map(fvec, ~{ fv = .x; purrr::map_lgl(bvec, ~stringi::stri_detect_regex(fv, .x) |> any()) }) |>
-													 	purrr::reduce(rbind)
+		`111` = purrr::map(fvec, \(x){ purrr::map_lgl(bvec, \(i) stringi::stri_detect_regex(x, i) |> any()) }) |>
+							purrr::reduce(rbind)
 
 		, # avec ~ logical.out = FALSE, stringi::stri_detect_regex ~ regex, {purrr::map; `%in% } ~ fvec[]
-		`011` = purrr::map(fvec, ~{ fv = .x; purrr::map_lgl(bvec, ~stringi::stri_detect_regex(fv, .x) |> any()) }) |>
-													 	purrr::reduce(rbind)* avec
+		`011` = purrr::map(fvec, \(x){ purrr::map_lgl(bvec, \(i) stringi::stri_detect_regex(x, i) |> any()) }) |>
+							purrr::reduce(rbind) * avec
 		)[paste(as.numeric(logical.out), as.numeric(regex), as.numeric(is.list(fvec)), sep = "")]
 	}
 

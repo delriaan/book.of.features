@@ -6,8 +6,8 @@
 \usage{
 logic_map(
   fvec,
-  avec = rep(1, length(fvec)),
-  bvec = sort(unique(fvec)),
+  avec = NULL,
+  bvec = NULL,
   logical.out = FALSE,
   regex = FALSE,
   chatty = FALSE
