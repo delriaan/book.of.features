@@ -271,13 +271,12 @@ make.windows <- function(series, window.size, increment = 1, post = eval, debug 
 	purrr::compact()
 }
 #
-make.quantiles <- function(x, as.factor = FALSE, ...){
+make.quantiles <- function(x, ..., as.factor = FALSE){
 #' Quantiles Transformation
 #'
 #' \code{make.quantiles} is a wrapper for \code{\link[stats]{quantile}} replacing the input with calculated values.  Unmatched quantiles will return \code{NA} in order to match the length of the input vector.
 #'
 #' @param x The input vector
-#' @param as.factor (logical) Should the output be returned as a factor?
 #' @param ... (\code{\link[rlang]{dots_list}}): Additional arguments sent to \code{\link[stats]{quantile}}.  Defaults are as follows:\cr
 #' \itemize{
 #' \item{\code{probs = seq(0, 1, 0.25)}}
@@ -287,6 +286,7 @@ make.quantiles <- function(x, as.factor = FALSE, ...){
 #' \item{\code{digits = 7}}
 #' \item{\code{...}}
 #' }
+#' @param as.factor (logical) Should the output be returned as a factor?
 #'
 #' @note Any indeterminate probabilities relative to the input will return \code{NA}
 #'

@@ -4,12 +4,10 @@
 \alias{make.quantiles}
 \title{Quantiles Transformation}
 \usage{
-make.quantiles(x, as.factor = FALSE, ...)
+make.quantiles(x, ..., as.factor = FALSE)
 }
 \arguments{
 \item{x}{The input vector}
-
-\item{as.factor}{(logical) Should the output be returned as a factor?}
 
 \item{...}{(\code{\link[rlang]{dots_list}}): Additional arguments sent to \code{\link[stats]{quantile}}.  Defaults are as follows:\cr
 \itemize{
@@ -20,6 +18,8 @@ make.quantiles(x, as.factor = FALSE, ...)
 \item{\code{digits = 7}}
 \item{\code{...}}
 }}
+
+\item{as.factor}{(logical) Should the output be returned as a factor?}
 }
 \value{
 A quantile representation of the input
