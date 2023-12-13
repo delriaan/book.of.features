@@ -38,7 +38,29 @@ A character (or factor) vector the length of the input, as "binned" representati
 \code{bin.windows} creates binned ranges based on the minimum factor of the integer input (\code{i}) or user-supplied value.
 }
 \note{
-Factor output is only available for heterogeneous data structures
+Factor output is only available for heterogeneous data structures.
+}
+\examples{
+bin.windows(40, use.bin = 3)
+bin.windows(40, use.bin = 3, as.factor = TRUE)
+bin.windows(40, use.bin = 3, silently = TRUE)
+
+.Data <- c(5, 50)
+list(before = .Data, after = bin.windows(.Data, use.bin = 3))
+
+.Data <- array(1:10, dim = c(5, 2))
+list(before = .Data, after = bin.windows(.Data, use.bin = 3, as.factor = FALSE))
+list(before = .Data, after = bin.windows(.Data, use.bin = 3, as.factor = TRUE))
+
+.Data <- cbind(
+    a = sample(70, 30)
+    , b = sample(100, 30)
+    , c = sample(10, 30, TRUE)
+    )
+
+list(before = .Data, after = bin.windows(.Data, use.bin = 7))
+list(before = .Data, after = as.data.frame(.Data) |> bin.windows(use.bin = 7))
+
 }
 \seealso{
 Other Data Generation: 

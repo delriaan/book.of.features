@@ -1,68 +1,137 @@
-sigmoid <- function(input, family = "logistic", center = mean, ...){
-#' {0,N} Sigmoid Scaler
+bin.windows <- function(i = 1, use.bin = NULL, as.factor = FALSE, label_format = "<%s,%s>", silently = FALSE, ...){
+#' Create Bins From Integer Factor
 #'
-#' \code{sigmoid} Scales the input to a range of {0,N} using the sigmoid function
+#' \code{bin.windows} creates binned ranges based on the minimum factor of the integer input (\code{i}) or user-supplied value.
 #'
-#' The input must contain positive and negative values when \code{centered == FALSE}
-#'
-#' Function arguments for each sigmoid family are as follows:
-#' \enumerate{
-#'   \item{\code{"generalized"}: \code{list(A, K, C, Q, B, v)}}
-#'   \item{\code{"logistic"}: \code{list(L, K)}}
-#'   \item{\code{"gompertz"}: \code{list(A, B, C)}}
-#' }
-#' Families \code{tanh}, \code{atan}, and \code{guder}(mannian) only take the input as its argument
-#'
-#' @section References:
-#' \enumerate{
-#' \item{\href{https://en.m.wikipedia.org/wiki/Generalised_logistic_function}{Generalized Logistic Function}}
-#' \item{\href{https://en.m.wikipedia.org/wiki/Sigmoid_function}{Sigmoid Function}}
-#' \item{\href{https://en.m.wikipedia.org/wiki/Gompertz_function}{Gompertz Function}}
-#' \item{\href{https://en.m.wikipedia.org/wiki/Gudermannian_function}{Gudermannian Function}}
+#' @param i (integer[]) An integer scalar, vector, or n-dimensional object executed conditionally as follows:
+#' \itemize{
+#' \item{if a vector of length = 1, a zero-based sequence up to \code{abs(i) } is used}
+#' \item{if a vector of length = 2, a sequence is created from the values in the order given if the input is non-dimensional}
+#' \item{if a vector of length >= 3 or \code{i} is dimensional, the raw values coerced into a vector}
 #' }
 #'
-#' @importFrom book.of.utilities %bin% factor.int %tf%
-#' @importFrom stringi %s+%
-#' @importFrom magrittr %>%
-#' @importFrom stats quantile
-#' @importFrom utils str
-#' @import data.table
+#' @param use.bin The bin size to use: when empty, the smallest prime number or integer factor in \code{i} within the range of \code{i} is used.
+#' @param as.factor (logical) Should the output be converted into a factor?
+#' @param label_format (string) A two-argument string compatible with \code{\link[base]{sprintf}} that controls label output
+#' @param silently (logical) Should the output return invisibly?
+#' @param ... (not used)
 #'
-#' @param input (numeric vector or coercible vector)
-#' @param family (string | "logistic") The family of sigmoid equation to use: Currently, only "logistic", "generalized", and "gompertz" are supported
-#' @param center A function that returns the 'center' of \code{input}
-#' @param ... Valid elements that populate the arguments of \code{type} based on the selected \code{family}
+#' @return A character (or factor) vector the length of the input, as "binned" representations.  If the input is dimensional, an array of the same dimensions is returned
 #'
-#' @return A numeric vector of domain {0, N}
+#' @note Factor output is only available for heterogeneous data structures.
+#'
+#' @examples
+#' bin.windows(40, use.bin = 3)
+#' bin.windows(40, use.bin = 3, as.factor = TRUE)
+#' bin.windows(40, use.bin = 3, silently = TRUE)
+#'
+#' .Data <- c(5, 50)
+#' list(before = .Data, after = bin.windows(.Data, use.bin = 3))
+#'
+#' .Data <- array(1:10, dim = c(5, 2))
+#' list(before = .Data, after = bin.windows(.Data, use.bin = 3, as.factor = FALSE))
+#' list(before = .Data, after = bin.windows(.Data, use.bin = 3, as.factor = TRUE))
+#'
+#' .Data <- cbind(
+#'     a = sample(70, 30)
+#'     , b = sample(100, 30)
+#'     , c = sample(10, 30, TRUE)
+#'     )
+#'
+#' list(before = .Data, after = bin.windows(.Data, use.bin = 7))
+#' list(before = .Data, after = as.data.frame(.Data) |> bin.windows(use.bin = 7))
+#'
+#' @family Data Generation
 #'
 #' @export
 
-	input = as.complex(as.numeric(unlist(input)));
+	if (rlang::has_length(i, 1)){
+		i <- matrix(0:i, ncol = 1)
+	} else if (rlang::has_length(i, 2) & rlang::is_empty(dim(i))){
+		i <- `:`(i[1], i[2])
+	}
 
-	# Initialize the internal environment with defaults
-	L <- K <- A <- C <- Q <- B <- v <- 1;
+	if (rlang::is_empty(dim(i))){ dim(i) <- c(length(i), 1) }
 
-	family <- as.character(rlang::enexpr(family))
+	output <- NULL;
+	.dnames <- dimnames(i);
+	.dims <- dim(i);
+	.class <- class(i);
 
-	# Capture the internal environment
-	env <- environment((function(){}));
+	i <- data.table::setattr(if ("data.frame" %in% .class){ unlist(i, use.names = FALSE) } else { c(i) }, "orig", i)
 
-	# Overwrite existing variables with supplied values
-	list2env(rlang::list2(...), envir = env);
+	force(use.bin)
+	use.bin <- abs(use.bin)
 
-	# Set the expression list for sigmoid families
-	sig.family <- { rlang::exprs(
-			generalized = A + (K - A)/(C + (Q * exp(-1 * B * input)))^(1/v)
-			, gompertz  = A * exp(-B * exp(-C * input))
-			, logistic	= L/(1 + exp(-K * (input - center(input))))
-			, tanh			= { exp(input) - exp(-input) } / { exp(input) + exp(-input) }
-			, atan			= atan(input)
-			, guder			= 2 * atan(tanh(input/2))
-			)}
+	if (rlang::is_empty(use.bin)){
+		bin_fact <- purrr::keep(unlist(book.of.utilities::factor.int(i)), `%in%`, `:`(min(i), max(i))) |> min(na.rm = TRUE)
+		use.bin <- if (rlang::is_empty(bin_fact)){
+				book.of.utilities::gen.primes(n = 1, domain = range(i), distinct = TRUE, random = FALSE)
+			} else { bin_fact }
+	}
 
-	# Evaluate the family with the supplied arguments
-	output <- eval(sig.family[[which(grepl(paste0("^", family), x = names(sig.family)))]]);
-	if (all(Im(output) == 0)){ Re(output) } else { output }
+	func <- purrr::as_mapper(~{
+				orig_X <- .x
+				orig_X.bins <- book.of.utilities::`%bin%`(orig_X, use.bin)
+				sort_X <- sort(orig_X) |> unique();
+				.fmt <- .y
+				.map <- { data.table::data.table(
+										win.vals = orig_X
+										, label = cbind(orig_X.bins, orig_X.bins + use.bin - 1) |>
+												apply(1, \(x) sprintf(fmt = .fmt, sort(x)[1], sort(x)[2]))
+										)
+								}
+
+				attr(.map$label, "bin.map") <- .map[order(win.vals), .(win.vals = list(range(win.vals))), by = label][, purrr::map(.SD, `attributes<-`, value = NULL)];
+				attr(.map$label, "bin.size") <- use.bin;
+
+				if (as.factor){ factor(.map$label, levels = attr(.map$label, "bin.map")$label, ordered = TRUE) } else { .map$label }
+			});
+
+	output <- func(i, label_format) |> structure(dim = .dims, dimnames = .dnames)
+
+	if (silently){ invisible(output) } else { output }
+}
+#
+create_dims <- function(n, d){
+#' Create Dimension Specs
+#'
+#' @param n The total number of values
+#' @param d The number of dimensions
+#'
+#' @return A \code{d}-column row-ordered matrix of possible dimensions or (invisibly) a message if no dimensions can be found.
+#'
+#' @examples
+#' k <- create_dims(n = 20, d = 3)
+#' # Create an array with dimensions sampled from `k`:
+#' array(sample(x = 20, size = prod(k[1, ]), replace = TRUE), dim = k[sample(nrow(k), 1), ])
+#'
+#' k <- create_dims(n = 56, d = 4)
+#' # Create an array with dimensions sampled from `k`:
+#' array(sample(x = 20, size = prod(k[1, ]), replace = TRUE), dim = k[sample(nrow(k), 1), ])
+#'
+#' @export
+
+	# Use factors of `n` to create a search space of possible dimensions:
+	x <- book.of.utilities::factor.int(n);
+
+	# Find all combinations of `x` with length `d` whose product is `n` ...
+	.tmp <- combinat::combn(x, d, simplify = FALSE) |>
+		purrr::keep(\(i) prod(i) == n)
+
+	if (rlang::is_empty(.tmp)){
+		msg <- glue::glue("No dimensions of {d} factors can be found for {n} values");
+		message(msg);
+		return(invisible(msg))
+	}
+
+	.tmp |>
+		# ... generate permutations of each combination retained ...
+		purrr::map(\(z) combinat::permn(z) |> purrr::reduce(rbind)) |>
+		# ... and combine into a single row-ordered array
+		purrr::reduce(rbind) |>
+		unique() |>
+		magrittr::set_attr("dimnames", list(NULL, paste0("dim", 1:d)));
 }
 #
 logic_map <- function(fvec, avec = NULL, bvec = NULL, logical.out = FALSE, regex = FALSE, chatty = FALSE){
@@ -142,80 +211,6 @@ logic_map <- function(fvec, avec = NULL, bvec = NULL, logical.out = FALSE, regex
 	eval(action[[1]])
 }
 #
-bin.windows <- function(i = 1, use.bin = NULL, as.factor = FALSE, label_format = "<%s,%s>", silently = FALSE, ...){
-#' Create Bins From Integer Factor
-#'
-#' \code{bin.windows} creates binned ranges based on the minimum factor of the integer input (\code{i}) or user-supplied value.
-#'
-#' @param i (integer[]) An integer scalar, vector, or n-dimensional object executed conditionally as follows:
-#' \itemize{
-#' \item{if a vector of length = 1, a zero-based sequence up to \code{abs(i) } is used}
-#' \item{if a vector of length = 2, a sequence is created from the values in the order given if the input is non-dimensional}
-#' \item{if a vector of length >= 3 or \code{i} is dimensional, the raw values coerced into a vector}
-#' }
-#'
-#' @param use.bin The bin size to use: when empty, the smallest prime number or integer factor in \code{i} within the range of \code{i} is used.
-#' @param as.factor (logical) Should the output be converted into a factor?
-#' @param label_format (string) A two-argument string compatible with \code{\link[base]{sprintf}} that controls label output
-#' @param silently (logical) Should the output return invisibly?
-#' @param ... (not used)
-#'
-#' @return A character (or factor) vector the length of the input, as "binned" representations.  If the input is dimensional, an array of the same dimensions is returned
-#'
-#' @note Factor output is only available for heterogeneous data structures
-#'
-#' @family Data Generation
-#'
-#' @export
-
-	if (rlang::has_length(i, 1)){
-		i <- matrix(0:i, ncol = 1)
-	} else if (rlang::has_length(i, 2) & rlang::is_empty(dim(i))){
-		i <- `:`(i[1], i[2])
-	}
-
-	if (rlang::is_empty(dim(i))){ dim(i) <- c(length(i), 1) }
-
-	output <- NULL;
-	.dnames <- dimnames(i);
-	.dims <- dim(i);
-	.class <- class(i);
-
-	i <- data.table::setattr(if ("data.frame" %in% .class){ unlist(i, use.names = FALSE) } else { c(i) }, "orig", i)
-
-	force(use.bin)
-	use.bin <- abs(use.bin)
-
-	if (rlang::is_empty(use.bin)){
-		bin_fact <- purrr::keep(unlist(book.of.utilities::factor.int(i)), `%in%`, `:`(min(i), max(i))) |> min(na.rm = TRUE)
-		use.bin <- if (rlang::is_empty(bin_fact)){
-				book.of.utilities::gen.primes(n = 1, domain = range(i), distinct = TRUE, random = FALSE)
-			} else { bin_fact }
-	}
-
-	func <- purrr::as_mapper(~{
-				orig_X <- .x
-				orig_X.bins <- book.of.utilities::`%bin%`(orig_X, use.bin)
-				sort_X <- sort(orig_X) |> unique();
-				.fmt <- .y
-				.map <- { data.table::data.table(
-										win.vals = orig_X
-										, label = cbind(orig_X.bins, orig_X.bins + use.bin - 1) |>
-												apply(1, \(x) sprintf(fmt = .fmt, sort(x)[1], sort(x)[2]))
-										)
-								}
-
-				attr(.map$label, "bin.map") <- .map[order(win.vals), .(win.vals = list(range(win.vals))), by = label][, purrr::map(.SD, `attributes<-`, value = NULL)];
-				attr(.map$label, "bin.size") <- use.bin;
-
-				if (as.factor){ factor(.map$label, levels = attr(.map$label, "bin.map")$label, ordered = TRUE) } else { .map$label }
-			});
-
-	output <- func(i, label_format) |> structure(dim = .dims, dimnames = .dnames)
-
-	if (silently){ invisible(output) } else { output }
-}
-#
 make.date_time <- function(add_vec = 1:7, var_start = Sys.Date(), var_form = "%Y-%m-%d 00:00:00", var_tz = "", var_interval = "days"){
 #' Date-Time Sequence Generator
 #'
@@ -234,41 +229,6 @@ make.date_time <- function(add_vec = 1:7, var_start = Sys.Date(), var_form = "%Y
 #' @export
 
 	stringi::stri_datetime_add(time = as.Date(var_start), value = add_vec, unit = var_interval, tz = var_tz) |> format(var_form)
-}
-#
-make.windows <- function(series, window.size, increment = 1, post = eval, debug = FALSE, ...) {
-#' Serial Window Maker (DEPRECATED)
-#'
-#' \code{make.windows} is a wrapper for \code{\link[slider]{slide}}
-#'
-#' @param series A list or vector object from which incremental subsets (windows) of a fixed size are chosen
-#' @param window.size (integer) The size of the subset (window) to select
-#' @param increment (integer) The number of elements by which iteration should advance
-#' @param post (function) A post-processing function on the return object having class "data.table" and single column "window"
-#' @param debug (logical | FALSE) When \code{TRUE}, additional information is printed to console for debugging purposes
-#' @param ... Additional arguments sent to  \code{\link[slider]{slide}}
-#'
-#' Sets are the result of forward-moving partitioning:
-#' \enumerate{
-#'   \item{\code{window.size}: The size of each partition (W)}
-#'   \item{\code{increment}: The number of items to increment before selecting the next W items (W + i)}
-#' }
-#'
-#' @return A serialized collection-list of partitions (windows), each window containing a subset of size \code{window.size}
-#'
-#' @family Data Generation
-#'
-#' @export
-
-	slider::slide(
-		.x = series
-		, .f = post
-		, .before = ifelse(window.size < 0L, window.size - 1, 0L)
-		, .after = ifelse(window.size > 0L, window.size - 1, 0L)
-		, .step = increment
-		, ...
-		) |>
-	purrr::compact()
 }
 #
 make.quantiles <- function(x, ..., as.factor = FALSE){
@@ -316,4 +276,106 @@ make.quantiles <- function(x, ..., as.factor = FALSE){
 	if (as.factor){
 		factor(.out, levels = names(q.vec), , ordered = TRUE)
 	} else { .out }
+}
+#
+make.windows <- function(series, window.size, increment = 1, post = eval, debug = FALSE, ...) {
+#' Serial Window Maker (DEPRECATED)
+#'
+#' \code{make.windows} is a wrapper for \code{\link[slider]{slide}}
+#'
+#' @param series A list or vector object from which incremental subsets (windows) of a fixed size are chosen
+#' @param window.size (integer) The size of the subset (window) to select
+#' @param increment (integer) The number of elements by which iteration should advance
+#' @param post (function) A post-processing function on the return object having class "data.table" and single column "window"
+#' @param debug (logical | FALSE) When \code{TRUE}, additional information is printed to console for debugging purposes
+#' @param ... Additional arguments sent to  \code{\link[slider]{slide}}
+#'
+#' Sets are the result of forward-moving partitioning:
+#' \enumerate{
+#'   \item{\code{window.size}: The size of each partition (W)}
+#'   \item{\code{increment}: The number of items to increment before selecting the next W items (W + i)}
+#' }
+#'
+#' @return A serialized collection-list of partitions (windows), each window containing a subset of size \code{window.size}
+#'
+#' @family Data Generation
+#'
+#' @export
+
+	slider::slide(
+		.x = series
+		, .f = post
+		, .before = ifelse(window.size < 0L, window.size - 1, 0L)
+		, .after = ifelse(window.size > 0L, window.size - 1, 0L)
+		, .step = increment
+		, ...
+		) |>
+	purrr::compact()
+}
+#
+sigmoid <- function(input, family = "logistic", center = mean, ...){
+#' {0,N} Sigmoid Scaler
+#'
+#' \code{sigmoid} Scales the input to a range of {0,N} using the sigmoid function
+#'
+#' The input must contain positive and negative values when \code{centered == FALSE}
+#'
+#' Function arguments for each sigmoid family are as follows:
+#' \enumerate{
+#'   \item{\code{"generalized"}: \code{list(A, K, C, Q, B, v)}}
+#'   \item{\code{"logistic"}: \code{list(L, K)}}
+#'   \item{\code{"gompertz"}: \code{list(A, B, C)}}
+#' }
+#' Families \code{tanh}, \code{atan}, and \code{guder}(mannian) only take the input as its argument
+#'
+#' @section References:
+#' \enumerate{
+#' \item{\href{https://en.m.wikipedia.org/wiki/Generalised_logistic_function}{Generalized Logistic Function}}
+#' \item{\href{https://en.m.wikipedia.org/wiki/Sigmoid_function}{Sigmoid Function}}
+#' \item{\href{https://en.m.wikipedia.org/wiki/Gompertz_function}{Gompertz Function}}
+#' \item{\href{https://en.m.wikipedia.org/wiki/Gudermannian_function}{Gudermannian Function}}
+#' }
+#'
+#' @importFrom book.of.utilities %bin% factor.int %tf%
+#' @importFrom stringi %s+%
+#' @importFrom magrittr %>%
+#' @importFrom stats quantile
+#' @importFrom utils str
+#' @import data.table
+#'
+#' @param input (numeric vector or coercible vector)
+#' @param family (string | "logistic") The family of sigmoid equation to use: Currently, only "logistic", "generalized", and "gompertz" are supported
+#' @param center A function that returns the 'center' of \code{input}
+#' @param ... Valid elements that populate the arguments of \code{type} based on the selected \code{family}
+#'
+#' @return A numeric vector of domain {0, N}
+#'
+#' @export
+
+	input = as.complex(as.numeric(unlist(input)));
+
+	# Initialize the internal environment with defaults
+	L <- K <- A <- C <- Q <- B <- v <- 1;
+
+	family <- as.character(rlang::enexpr(family))
+
+	# Capture the internal environment
+	env <- environment((function(){}));
+
+	# Overwrite existing variables with supplied values
+	list2env(rlang::list2(...), envir = env);
+
+	# Set the expression list for sigmoid families
+	sig.family <- { rlang::exprs(
+			generalized = A + (K - A)/(C + (Q * exp(-1 * B * input)))^(1/v)
+			, gompertz  = A * exp(-B * exp(-C * input))
+			, logistic	= L/(1 + exp(-K * (input - center(input))))
+			, tanh			= { exp(input) - exp(-input) } / { exp(input) + exp(-input) }
+			, atan			= atan(input)
+			, guder			= 2 * atan(tanh(input/2))
+			)}
+
+	# Evaluate the family with the supplied arguments
+	output <- eval(sig.family[[which(grepl(paste0("^", family), x = names(sig.family)))]]);
+	if (all(Im(output) == 0)){ Re(output) } else { output }
 }

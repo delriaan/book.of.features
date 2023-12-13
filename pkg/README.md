@@ -8,6 +8,7 @@ Use `remotes::install_github("delriaan/book.of.features", subdir = "pkg")` to in
 
 >
 - bin.windows
+- create_dims
 - logic_map
 - make.date_time
 - make.quantiles

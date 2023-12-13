@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">book.of.features</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.2.3</span>
       </span>
     </div>
 
@@ -97,7 +97,7 @@
     </div>
     <div id="note">
     <h2>Note</h2>
-    <p>Factor output is only available for heterogeneous data structures</p>
+    <p>Factor output is only available for heterogeneous data structures.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -106,6 +106,416 @@
 <code><a href="make.windows.html">make.windows</a>()</code></p></div>
     </div>
 
+    <div id="ref-examples">
+    <h2>Examples</h2>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">bin.windows</span><span class="op">(</span><span class="fl">40</span>, use.bin <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       [,1]     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "&lt;0,2&gt;"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] "&lt;0,2&gt;"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] "&lt;0,2&gt;"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] "&lt;3,5&gt;"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] "&lt;3,5&gt;"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] "&lt;3,5&gt;"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] "&lt;6,8&gt;"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] "&lt;6,8&gt;"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] "&lt;6,8&gt;"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] "&lt;9,11&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] "&lt;9,11&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] "&lt;9,11&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] "&lt;12,14&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] "&lt;12,14&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] "&lt;12,14&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] "&lt;15,17&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] "&lt;15,17&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "&lt;15,17&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "&lt;18,20&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "&lt;18,20&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "&lt;18,20&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "&lt;21,23&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "&lt;21,23&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "&lt;21,23&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "&lt;24,26&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "&lt;24,26&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "&lt;24,26&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "&lt;27,29&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "&lt;27,29&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "&lt;27,29&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31,] "&lt;30,32&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [32,] "&lt;30,32&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [33,] "&lt;30,32&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [34,] "&lt;33,35&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [35,] "&lt;33,35&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36,] "&lt;33,35&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [37,] "&lt;36,38&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [38,] "&lt;36,38&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [39,] "&lt;36,38&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [40,] "&lt;39,41&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [41,] "&lt;39,41&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"bin.map")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       label win.vals</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1:   &lt;0,2&gt;      0,2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2:   &lt;3,5&gt;      3,5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3:   &lt;6,8&gt;      6,8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4:  &lt;9,11&gt;     9,11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5: &lt;12,14&gt;    12,14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  6: &lt;15,17&gt;    15,17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  7: &lt;18,20&gt;    18,20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  8: &lt;21,23&gt;    21,23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9: &lt;24,26&gt;    24,26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10: &lt;27,29&gt;    27,29</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11: &lt;30,32&gt;    30,32</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12: &lt;33,35&gt;    33,35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13: &lt;36,38&gt;    36,38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14: &lt;39,41&gt;    39,40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"bin.size")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
+<span class="r-in"><span><span class="fu">bin.windows</span><span class="op">(</span><span class="fl">40</span>, use.bin <span class="op">=</span> <span class="fl">3</span>, as.factor <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       [,1]   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] &lt;0,2&gt;  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] &lt;0,2&gt;  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] &lt;0,2&gt;  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] &lt;3,5&gt;  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] &lt;3,5&gt;  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] &lt;3,5&gt;  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] &lt;6,8&gt;  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] &lt;6,8&gt;  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] &lt;6,8&gt;  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] &lt;9,11&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] &lt;9,11&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] &lt;9,11&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] &lt;12,14&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] &lt;12,14&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] &lt;12,14&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] &lt;15,17&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] &lt;15,17&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] &lt;15,17&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] &lt;18,20&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] &lt;18,20&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] &lt;18,20&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] &lt;21,23&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] &lt;21,23&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] &lt;21,23&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] &lt;24,26&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] &lt;24,26&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] &lt;24,26&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] &lt;27,29&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] &lt;27,29&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] &lt;27,29&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31,] &lt;30,32&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [32,] &lt;30,32&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [33,] &lt;30,32&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [34,] &lt;33,35&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [35,] &lt;33,35&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36,] &lt;33,35&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [37,] &lt;36,38&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [38,] &lt;36,38&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [39,] &lt;36,38&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [40,] &lt;39,41&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [41,] &lt;39,41&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 Levels: &lt;0,2&gt; &lt; &lt;3,5&gt; &lt; &lt;6,8&gt; &lt; &lt;9,11&gt; &lt; &lt;12,14&gt; &lt; &lt;15,17&gt; &lt; ... &lt; &lt;39,41&gt;</span>
+<span class="r-in"><span><span class="fu">bin.windows</span><span class="op">(</span><span class="fl">40</span>, use.bin <span class="op">=</span> <span class="fl">3</span>, silently <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">.Data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>before <span class="op">=</span> <span class="va">.Data</span>, after <span class="op">=</span> <span class="fu">bin.windows</span><span class="op">(</span><span class="va">.Data</span>, use.bin <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $before</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  5 50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $after</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       [,1]     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "&lt;3,5&gt;"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] "&lt;6,8&gt;"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] "&lt;6,8&gt;"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] "&lt;6,8&gt;"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] "&lt;9,11&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] "&lt;9,11&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] "&lt;9,11&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] "&lt;12,14&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] "&lt;12,14&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] "&lt;12,14&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] "&lt;15,17&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] "&lt;15,17&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] "&lt;15,17&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] "&lt;18,20&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] "&lt;18,20&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] "&lt;18,20&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] "&lt;21,23&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "&lt;21,23&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "&lt;21,23&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "&lt;24,26&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "&lt;24,26&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "&lt;24,26&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "&lt;27,29&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "&lt;27,29&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "&lt;27,29&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "&lt;30,32&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "&lt;30,32&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "&lt;30,32&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "&lt;33,35&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "&lt;33,35&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [31,] "&lt;33,35&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [32,] "&lt;36,38&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [33,] "&lt;36,38&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [34,] "&lt;36,38&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [35,] "&lt;39,41&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36,] "&lt;39,41&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [37,] "&lt;39,41&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [38,] "&lt;42,44&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [39,] "&lt;42,44&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [40,] "&lt;42,44&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [41,] "&lt;45,47&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [42,] "&lt;45,47&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [43,] "&lt;45,47&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [44,] "&lt;48,50&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [45,] "&lt;48,50&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [46,] "&lt;48,50&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"bin.map")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       label win.vals</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1:   &lt;3,5&gt;      5,5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2:   &lt;6,8&gt;      6,8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3:  &lt;9,11&gt;     9,11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4: &lt;12,14&gt;    12,14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5: &lt;15,17&gt;    15,17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  6: &lt;18,20&gt;    18,20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  7: &lt;21,23&gt;    21,23</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  8: &lt;24,26&gt;    24,26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9: &lt;27,29&gt;    27,29</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10: &lt;30,32&gt;    30,32</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11: &lt;33,35&gt;    33,35</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12: &lt;36,38&gt;    36,38</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13: &lt;39,41&gt;    39,41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14: &lt;42,44&gt;    42,44</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15: &lt;45,47&gt;    45,47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16: &lt;48,50&gt;    48,50</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"bin.size")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">.Data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, dim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>before <span class="op">=</span> <span class="va">.Data</span>, after <span class="op">=</span> <span class="fu">bin.windows</span><span class="op">(</span><span class="va">.Data</span>, use.bin <span class="op">=</span> <span class="fl">3</span>, as.factor <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $before</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1    6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    2    7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    3    8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    4    9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    5   10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $after</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]    [,2]    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] "&lt;0,2&gt;" "&lt;6,8&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] "&lt;0,2&gt;" "&lt;6,8&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] "&lt;3,5&gt;" "&lt;6,8&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] "&lt;3,5&gt;" "&lt;9,11&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] "&lt;3,5&gt;" "&lt;9,11&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"bin.map")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     label win.vals</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:  &lt;0,2&gt;      1,2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:  &lt;3,5&gt;      3,5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:  &lt;6,8&gt;      6,8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: &lt;9,11&gt;     9,10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"bin.size")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>before <span class="op">=</span> <span class="va">.Data</span>, after <span class="op">=</span> <span class="fu">bin.windows</span><span class="op">(</span><span class="va">.Data</span>, use.bin <span class="op">=</span> <span class="fl">3</span>, as.factor <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $before</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    1    6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    2    7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    3    8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]    4    9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]    5   10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $after</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]  [,2]  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] &lt;0,2&gt; &lt;6,8&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] &lt;0,2&gt; &lt;6,8&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] &lt;3,5&gt; &lt;6,8&gt; </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] &lt;3,5&gt; &lt;9,11&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] &lt;3,5&gt; &lt;9,11&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Levels: &lt;0,2&gt; &lt; &lt;3,5&gt; &lt; &lt;6,8&gt; &lt; &lt;9,11&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">.Data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">70</span>, <span class="fl">30</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    , b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">100</span>, <span class="fl">30</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    , c <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">30</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>before <span class="op">=</span> <span class="va">.Data</span>, after <span class="op">=</span> <span class="fu">bin.windows</span><span class="op">(</span><span class="va">.Data</span>, use.bin <span class="op">=</span> <span class="fl">7</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $before</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        a  b  c</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] 61 96  1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] 44  5  3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] 38 20  6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] 54 41  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] 12 11  3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] 66 17  8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] 55 54  9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  2 13  9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] 16 99  6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 21 44  8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,]  3 25  6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 57 74 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] 31  4  7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] 13 39  8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] 41 94 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] 35 76  8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] 48 73  9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] 33 87 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19,]  6 59  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] 63  7  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] 28  6  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22,]  7 19  1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] 22 48 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] 24 66  3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] 39 56  5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] 30 49  1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] 37 51  6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] 29 68 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] 46 95 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [30,]  8 79  9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $after</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       a         b          c       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "&lt;56,62&gt;" "&lt;91,97&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] "&lt;42,48&gt;" "&lt;0,6&gt;"    "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] "&lt;35,41&gt;" "&lt;14,20&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] "&lt;49,55&gt;" "&lt;35,41&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] "&lt;7,13&gt;"  "&lt;7,13&gt;"   "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] "&lt;63,69&gt;" "&lt;14,20&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] "&lt;49,55&gt;" "&lt;49,55&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] "&lt;0,6&gt;"   "&lt;7,13&gt;"   "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] "&lt;14,20&gt;" "&lt;98,104&gt;" "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] "&lt;21,27&gt;" "&lt;42,48&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] "&lt;0,6&gt;"   "&lt;21,27&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] "&lt;56,62&gt;" "&lt;70,76&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] "&lt;28,34&gt;" "&lt;0,6&gt;"    "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] "&lt;7,13&gt;"  "&lt;35,41&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] "&lt;35,41&gt;" "&lt;91,97&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] "&lt;35,41&gt;" "&lt;70,76&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] "&lt;42,48&gt;" "&lt;70,76&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] "&lt;28,34&gt;" "&lt;84,90&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19,] "&lt;0,6&gt;"   "&lt;56,62&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] "&lt;63,69&gt;" "&lt;7,13&gt;"   "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] "&lt;28,34&gt;" "&lt;0,6&gt;"    "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22,] "&lt;7,13&gt;"  "&lt;14,20&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] "&lt;21,27&gt;" "&lt;42,48&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] "&lt;21,27&gt;" "&lt;63,69&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] "&lt;35,41&gt;" "&lt;56,62&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] "&lt;28,34&gt;" "&lt;49,55&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] "&lt;35,41&gt;" "&lt;49,55&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] "&lt;28,34&gt;" "&lt;63,69&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] "&lt;42,48&gt;" "&lt;91,97&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [30,] "&lt;7,13&gt;"  "&lt;77,83&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"bin.map")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        label win.vals</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1:    &lt;0,6&gt;      1,6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2:   &lt;7,13&gt;     7,13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3:  &lt;14,20&gt;    16,20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4:  &lt;21,27&gt;    21,25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5:  &lt;28,34&gt;    28,33</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  6:  &lt;35,41&gt;    35,41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  7:  &lt;42,48&gt;    44,48</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  8:  &lt;49,55&gt;    49,55</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9:  &lt;56,62&gt;    56,61</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10:  &lt;63,69&gt;    63,68</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11:  &lt;70,76&gt;    73,76</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12:  &lt;77,83&gt;    79,79</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13:  &lt;84,90&gt;    87,87</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14:  &lt;91,97&gt;    94,96</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15: &lt;98,104&gt;    99,99</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"bin.size")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>before <span class="op">=</span> <span class="va">.Data</span>, after <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="va">.Data</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu">bin.windows</span><span class="op">(</span>use.bin <span class="op">=</span> <span class="fl">7</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $before</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        a  b  c</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] 61 96  1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] 44  5  3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] 38 20  6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] 54 41  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] 12 11  3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] 66 17  8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] 55 54  9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  2 13  9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] 16 99  6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 21 44  8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,]  3 25  6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 57 74 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] 31  4  7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] 13 39  8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] 41 94 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] 35 76  8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17,] 48 73  9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [18,] 33 87 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19,]  6 59  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [20,] 63  7  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [21,] 28  6  4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22,]  7 19  1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [23,] 22 48 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [24,] 24 66  3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25,] 39 56  5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [26,] 30 49  1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [27,] 37 51  6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28,] 29 68 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29,] 46 95 10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [30,]  8 79  9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $after</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    a         b          c       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  "&lt;56,62&gt;" "&lt;91,97&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  "&lt;42,48&gt;" "&lt;0,6&gt;"    "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  "&lt;35,41&gt;" "&lt;14,20&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  "&lt;49,55&gt;" "&lt;35,41&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  "&lt;7,13&gt;"  "&lt;7,13&gt;"   "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  "&lt;63,69&gt;" "&lt;14,20&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  "&lt;49,55&gt;" "&lt;49,55&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  "&lt;0,6&gt;"   "&lt;7,13&gt;"   "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  "&lt;14,20&gt;" "&lt;98,104&gt;" "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 "&lt;21,27&gt;" "&lt;42,48&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 "&lt;0,6&gt;"   "&lt;21,27&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 "&lt;56,62&gt;" "&lt;70,76&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 "&lt;28,34&gt;" "&lt;0,6&gt;"    "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 "&lt;7,13&gt;"  "&lt;35,41&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 "&lt;35,41&gt;" "&lt;91,97&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 "&lt;35,41&gt;" "&lt;70,76&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 "&lt;42,48&gt;" "&lt;70,76&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 "&lt;28,34&gt;" "&lt;84,90&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 "&lt;0,6&gt;"   "&lt;56,62&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 "&lt;63,69&gt;" "&lt;7,13&gt;"   "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 "&lt;28,34&gt;" "&lt;0,6&gt;"    "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 "&lt;7,13&gt;"  "&lt;14,20&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 "&lt;21,27&gt;" "&lt;42,48&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 "&lt;21,27&gt;" "&lt;63,69&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 "&lt;35,41&gt;" "&lt;56,62&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26 "&lt;28,34&gt;" "&lt;49,55&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27 "&lt;35,41&gt;" "&lt;49,55&gt;"  "&lt;0,6&gt;" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28 "&lt;28,34&gt;" "&lt;63,69&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29 "&lt;42,48&gt;" "&lt;91,97&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30 "&lt;7,13&gt;"  "&lt;77,83&gt;"  "&lt;7,13&gt;"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"bin.map")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        label win.vals</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1:    &lt;0,6&gt;      1,6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2:   &lt;7,13&gt;     7,13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3:  &lt;14,20&gt;    16,20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4:  &lt;21,27&gt;    21,25</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5:  &lt;28,34&gt;    28,33</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  6:  &lt;35,41&gt;    35,41</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  7:  &lt;42,48&gt;    44,48</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  8:  &lt;49,55&gt;    49,55</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9:  &lt;56,62&gt;    56,61</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10:  &lt;63,69&gt;    63,68</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11:  &lt;70,76&gt;    73,76</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12:  &lt;77,83&gt;    79,79</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13:  &lt;84,90&gt;    87,87</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14:  &lt;91,97&gt;    94,96</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15: &lt;98,104&gt;    99,99</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"bin.size")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+</code></pre></div>
+    </div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top"><h2 data-toc-skip>Contents</h2>

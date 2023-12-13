@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">book.of.features</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.2.3</span>
       </span>
     </div>
 
@@ -50,17 +50,13 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make.quantiles</span><span class="op">(</span><span class="va">x</span>, as.factor <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make.quantiles</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, as.factor <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>The input vector</p></dd>
-
-
-<dt>as.factor</dt>
-<dd><p>(logical) Should the output be returned as a factor?</p></dd>
 
 
 <dt>...</dt>
@@ -71,6 +67,10 @@
 <li><p><code>digits = 7</code></p></li>
 <li><p><code>...</code></p></li>
 </ul></dd>
+
+
+<dt>as.factor</dt>
+<dd><p>(logical) Should the output be returned as a factor?</p></dd>
 
 </dl></div>
     <div id="value">
@@ -88,48 +88,48 @@
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">900</span>, <span class="fl">20</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, q <span class="op">=</span> <span class="fu">book.of.features</span><span class="fu">::</span><span class="fu">make.quantiles</span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">.1</span><span class="op">)</span>, as.factor <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      x    q</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  296  40%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   27  10%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   10   0%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  603  80%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   69  20%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  345  50%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  667  80%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  473  60%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  425  50%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 104  30%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 130  30%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 674  90%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 876 100%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14  83  20%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15 480  60%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 681  90%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 271  40%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 544  70%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 799 100%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 498  70%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  713  90%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   22  20%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  400  60%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  791 100%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  627  80%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  767  90%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7   14   0%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  412  60%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   24  30%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 213  50%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 446  70%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12  34  30%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 348  50%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 608  70%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15  16  10%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16  20  20%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 668  80%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 123  40%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 126  40%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 844 100%</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">900</span>, <span class="fl">20</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, q <span class="op">=</span> <span class="fu">book.of.features</span><span class="fu">::</span><span class="fu">make.quantiles</span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">.1</span><span class="op">)</span>, as.factor <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      x     q</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  421 501.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  235 253.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   99 199.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  155 199.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5   40  87.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  265 364.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  843 843.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  716 719.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  638 698.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10   2   2.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 746 843.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 218 253.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 519 630.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 307 364.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15 489 501.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16 714 719.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17  11  31.7</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 627 630.3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 695 698.8</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20  34  87.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  696 705.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  213 228.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3   76 164.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  811 812.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  665 705.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  550 581.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  136 164.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  240 256.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  896 896.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 631 641.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 821 896.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 629 641.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 742 812.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 235 256.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15  31  31.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16  38  72.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 171 228.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 399 581.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 332 365.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 267 365.5</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
