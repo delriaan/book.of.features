@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">book.of.features</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.2.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.3.0</span>
       </span>
     </div>
 
@@ -88,48 +88,48 @@
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">900</span>, <span class="fl">20</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, q <span class="op">=</span> <span class="fu">book.of.features</span><span class="fu">::</span><span class="fu">make.quantiles</span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">.1</span><span class="op">)</span>, as.factor <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      x    q</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  713  90%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   22  20%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  400  60%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  791 100%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  627  80%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  767  90%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7   14   0%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  412  60%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9   24  30%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 213  50%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 446  70%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12  34  30%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 348  50%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 608  70%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15  16  10%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16  20  20%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 668  80%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 123  40%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 126  40%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 844 100%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  360  40%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  714  70%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  734  70%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  309  40%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  146  20%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  790  80%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  424  50%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  792  90%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  206  30%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 437  60%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 771  80%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12  51   0%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 261  30%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 833 100%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 828  90%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 666  60%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 393  50%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18  85  10%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 177  20%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 888 100%</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">900</span>, <span class="fl">20</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="op">(</span>\<span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, q <span class="op">=</span> <span class="fu">book.of.features</span><span class="fu">::</span><span class="fu">make.quantiles</span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">.1</span><span class="op">)</span>, as.factor <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      x     q</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  696 705.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  213 228.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3   76 164.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  811 812.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  665 705.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  550 581.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  136 164.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  240 256.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  896 896.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 631 641.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 821 896.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 629 641.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 742 812.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 235 256.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15  31  31.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16  38  72.2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 171 228.4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 399 581.6</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 332 365.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20 267 365.5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  184 196.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  427 429.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  147 176.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4   18  18.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  854 854.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  828 854.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  247 254.2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  265 277.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9   89 176.6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 391 397.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 434 607.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12  63  86.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 187 196.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 824 824.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 569 607.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16 289 397.8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 408 429.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 259 277.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 759 824.4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20 200 254.2</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

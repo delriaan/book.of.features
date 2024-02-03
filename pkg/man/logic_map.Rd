@@ -2,15 +2,16 @@
 % Please edit documentation in R/book.of.features.R
 \name{logic_map}
 \alias{logic_map}
-\title{Logical Test Occurrence Map}
+\title{Logical Occurrence Map}
 \usage{
 logic_map(
   fvec,
-  avec = NULL,
+  avec = 1L,
   bvec = NULL,
   logical.out = FALSE,
   regex = FALSE,
-  chatty = FALSE
+  chatty = FALSE,
+  ...
 )
 }
 \arguments{
@@ -24,19 +25,21 @@ logic_map(
 
 \item{regex}{(logical | \code{FALSE}) When \code{TRUE}, argument \code{bvec} is interpreted as patterns against which case-sensitive matches are sought are attempted.  This forces the value of \code{test} to invoke \code{\link[data.table]{like}}.}
 
-\item{chatty}{(logical | \code{FALSE}) When \code{TRUE}, additional information is printed to console}
+\item{...}{See \code{\link[string]{stri_detect_regex}}: arguments \code{str} and \code{pattern} are internally passed and not needed.}
 }
 \value{
-Invisibly, a data.table object, the column names being the values of \code{bvec} or names of \code{bvec} if they exist
+An array, the column names being the values of \code{bvec} or names of \code{bvec} if they exist.
 }
 \description{
-\code{logic_map} conducts a test of a vector or list of tuples against a vector of unique values. The test can be one of \code{identity}, pattern-matching, or some custom function with Boolean output. Parallelism is supported with a registered \code{\link[foreach]{foreach}} backend.  If no backend is registered, \code{\link[foreach]{registerDoSEQ}} is used as a default.
+\code{logic_map} conducts an existence test of a vector or list of tuples (\code{fvec}) against a vector of unique values (\code{bvec}) optionally mapping a supplied vector of values (\code{avec}) to all \code{TRUE} results.
 }
 \note{
 \code{length(fvec) == length(avec)}
+
+\code{fvec} and \code{bvec} must be of compatible types for comparison.
 }
 \section{\strong{Warning}}{
 
-When combining with the source object, \code{fvec} must \strong{NOT} be sorted during the function call or the values will not map correctly in the output.
+When combining with a source object, \code{fvec} must \strong{NOT} be sorted during the function call or the values will not map correctly in the output.
 }
 
