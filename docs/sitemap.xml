@@ -13,10 +13,16 @@
     <loc>/LICENSE-text.html</loc>
   </url>
   <url>
+    <loc>/news/index.html</loc>
+  </url>
+  <url>
     <loc>/reference/bin.windows.html</loc>
   </url>
   <url>
     <loc>/reference/Book-of-Features-Package.html</loc>
+  </url>
+  <url>
+    <loc>/reference/book.of.features-package.html</loc>
   </url>
   <url>
     <loc>/reference/book.of.features.html</loc>
