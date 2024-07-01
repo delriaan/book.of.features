@@ -64,6 +64,7 @@ list(before = .Data, after = as.data.frame(.Data) |> bin.windows(use.bin = 7))
 }
 \seealso{
 Other Data Generation: 
+\code{\link{formulate}()},
 \code{\link{make.date_time}()},
 \code{\link{make.windows}()}
 }

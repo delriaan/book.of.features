@@ -3,8 +3,6 @@ sigmoid <- function(input, family = "logistic", center = mean, ...){
 #'
 #' \code{sigmoid} Scales the input to a range of {0,N} using the sigmoid function
 #'
-#' The input must contain positive and negative values when \code{centered == FALSE}
-#'
 #' Function arguments for each sigmoid family are as follows:
 #' \enumerate{
 #'   \item{\code{"generalized"}: \code{list(A, K, C, Q, B, v)}}
@@ -31,7 +29,7 @@ sigmoid <- function(input, family = "logistic", center = mean, ...){
 #' @param input (numeric vector or coercible vector)
 #' @param family (string | "logistic") The family of sigmoid equation to use: Currently, only "logistic", "generalized", and "gompertz" are supported
 #' @param center A function that returns the 'center' of \code{input}
-#' @param ... Valid elements that populate the arguments of \code{type} based on the selected \code{family}
+#' @param ... Valid elements that populate the arguments of \code{type} based on the selected \code{family} (see 'Details')
 #'
 #' @return A numeric vector of domain {0, N}
 #'

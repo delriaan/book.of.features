@@ -2,6 +2,7 @@
 
 export(bin.windows)
 export(create_dims)
+export(formulate)
 export(logic_map)
 export(make.date_time)
 export(make.quantiles)

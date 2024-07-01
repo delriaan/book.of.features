@@ -41,6 +41,7 @@ A serialized collection-list of partitions (windows), each window containing a s
 \seealso{
 Other Data Generation: 
 \code{\link{bin.windows}()},
+\code{\link{formulate}()},
 \code{\link{make.date_time}()}
 }
 \concept{Data Generation}

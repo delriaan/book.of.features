@@ -13,7 +13,7 @@ sigmoid(input, family = "logistic", center = mean, ...)
 
 \item{center}{A function that returns the 'center' of \code{input}}
 
-\item{...}{Valid elements that populate the arguments of \code{type} based on the selected \code{family}}
+\item{...}{Valid elements that populate the arguments of \code{type} based on the selected \code{family} (see 'Details')}
 }
 \value{
 A numeric vector of domain {0, N}
@@ -22,8 +22,6 @@ A numeric vector of domain {0, N}
 \code{sigmoid} Scales the input to a range of {0,N} using the sigmoid function
 }
 \details{
-The input must contain positive and negative values when \code{centered == FALSE}
-
 Function arguments for each sigmoid family are as follows:
 \enumerate{
 \item{\code{"generalized"}: \code{list(A, K, C, Q, B, v)}}
