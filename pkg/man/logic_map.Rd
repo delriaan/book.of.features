@@ -10,7 +10,8 @@ logic_map(
   bvec = NULL,
   logical.out = FALSE,
   regex = FALSE,
-  chatty = FALSE,
+  sparse = TRUE,
+  progress = FALSE,
   ...
 )
 }
@@ -23,12 +24,16 @@ logic_map(
 
 \item{logical.out}{(logical, vector) When \code{TRUE}, the output consists of logical values; when a vector of length two (2) is supplied, the first value returns on \code{FALSE}, the second on \code{TRUE}; otherwise, the values of \code{avec} are used.  If the vector form is used, only the first value at each position is used to supply the choices.}
 
-\item{regex}{(logical | \code{FALSE}) When \code{TRUE}, argument \code{bvec} is interpreted as patterns against which case-sensitive matches are sought are attempted.  This forces the value of \code{test} to invoke \code{\link[data.table]{like}}.}
+\item{regex}{(logical | \code{FALSE}) When \code{TRUE}, argument \code{bvec} is interpreted as patterns against which case-sensitive matches are sought are attempted.  This forces the value of \code{test} to invoke \code{\link[stringi]{stri_detect_regex}}.}
 
-\item{...}{See \code{\link[string]{stri_detect_regex}}: arguments \code{str} and \code{pattern} are internally passed and not needed.}
+\item{sparse}{(logical | \code{TRUE}) When \code{FALSE}, the result is coerced into a matrix}
+
+\item{progress}{(logical | \code{TRUE}) When \code{TRUE}, a progress bar is shown in the console}
+
+\item{...}{See \code{\link[stringi]{stri_detect_regex}}: arguments \code{str} and \code{pattern} are internally passed and not needed.}
 }
 \value{
-An array, the column names being the values of \code{bvec} or names of \code{bvec} if they exist.
+A (sparse) matrix, the column names being the names of \code{bvec} if they exist.
 }
 \description{
 \code{logic_map} conducts an existence test of a vector or list of tuples (\code{fvec}) against a vector of unique values (\code{bvec}) optionally mapping a supplied vector of values (\code{avec}) to all \code{TRUE} results. The "vanilla" run mode produces at one-hot encoded version of \code{fvec}, but it can produce augmented versions of of such depending on the structure of \code{fvec}.
@@ -44,25 +49,40 @@ When combining with a source object, \code{fvec} must \strong{NOT} be sorted dur
 }
 
 \examples{
+# :: Plain vector input:
 x <- LETTERS[1:10]
 logic_map(x)
 
+# :: Flavored vector input:
 k <- c("steelblue2", "tan3", "gray47", "gray27", "gray60")
-x <- replicate(5, sample(k, 2) |> sort(), simplify = FALSE)
-v <- sample(50, length(x), TRUE)
-k
-v
-str(x)
-# Vanilla:
+x <- replicate(50, sample(k, 1), simplify = TRUE)
+v <- sample(100, length(x), TRUE)
+
+ls.str(pattern = "(x|k|v)$")
+
 # One-hot, default names:
 logic_map(x)
+
 # One-hot, custom names:
-logic_map(x, bvec = k)
+logic_map(fvec = x, bvec = k)
+
 # One-hot, custom names, logical output:
-logic_map(x, bvec = k, logical.out = TRUE)
+logic_map(fvec = x, bvec = k, logical.out = TRUE)
+
 # One-hot, custom names, regex matched, logical output:
-logic_map(x, bvec = c(alpha = "blue", beta = 60, delta = "gray"), regex = TRUE, logical.out = TRUE)
+logic_map(fvec = x, bvec = c(alpha = "blue", beta = 60, delta = "gray"), regex = TRUE, logical.out = TRUE)
+
 # One-hot, valued, custom names, regex matched, numeric output:
-logic_map(x, avec = v, bvec = c(alpha = "blue", beta = 60, delta = "gray"), regex = TRUE)
+logic_map(fvec = x, avec = v, bvec = c(alpha = "blue", beta = 60, delta = "gray"), regex = TRUE)
+
+# One-hot, valued, custom names, regex matched, numeric output, non-sparse:
+logic_map(fvec = x, avec = v, bvec = c(alpha = "blue", beta = 60, delta = "gray"), regex = TRUE, sparse = FALSE)
+
+# :: Flavored list input:
+x <- replicate(50, sample(k, 2) |> sort(), simplify = FALSE)
+
+str(head(x, 10)) 
+
+logic_map(fvec = x, avec = v, bvec = c(alpha = "blue", beta = 60, delta = "gray"), regex = TRUE)
 
 }
