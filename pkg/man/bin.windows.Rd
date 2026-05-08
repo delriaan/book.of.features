@@ -21,7 +21,7 @@ bin.windows(
 \item{if a vector of length >= 3 or \code{i} is dimensional, the raw values coerced into a vector}
 }}
 
-\item{use.bin}{The bin size to use: when empty, the smallest prime number or integer factor in \code{i} within the range of \code{i} is used.}
+\item{use.bin}{The bin size to use: When empty, the smallest prime number or integer factor in \code{i} within the range of \code{i} is used.}
 
 \item{as.factor}{(logical) Should the output be converted into a factor?}
 
@@ -40,32 +40,4 @@ A character (or factor) vector the length of the input, as "binned" representati
 \note{
 Factor output is only available for heterogeneous data structures.
 }
-\examples{
-bin.windows(40, use.bin = 3)
-bin.windows(40, use.bin = 3, as.factor = TRUE)
-bin.windows(40, use.bin = 3, silently = TRUE)
-
-.Data <- c(5, 50)
-list(before = .Data, after = bin.windows(.Data, use.bin = 3))
-
-.Data <- array(1:10, dim = c(5, 2))
-list(before = .Data, after = bin.windows(.Data, use.bin = 3, as.factor = FALSE))
-list(before = .Data, after = bin.windows(.Data, use.bin = 3, as.factor = TRUE))
-
-.Data <- cbind(
-    a = sample(70, 30)
-    , b = sample(100, 30)
-    , c = sample(10, 30, TRUE)
-    )
-
-list(before = .Data, after = bin.windows(.Data, use.bin = 7))
-list(before = .Data, after = as.data.frame(.Data) |> bin.windows(use.bin = 7))
-
-}
-\seealso{
-Other Data Generation: 
-\code{\link{formulate}()},
-\code{\link{make.date_time}()},
-\code{\link{make.windows}()}
-}
-\concept{Data Generation}
+\concept{Data Transformation}

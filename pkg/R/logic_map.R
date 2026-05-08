@@ -61,7 +61,7 @@ logic_map <- function(fvec, avec = 1L, bvec = NULL, logical.out = FALSE, regex =
 #' @export
 
 	# Target classes:
-	classes <- c(NA, "numeric", "integer", "factor", "character", "list");
+	classes <- c(NA, "numeric", "integer", "factor", "character", "list")
 
 	# Possible argument combinations:
 	logic_map.options <- { expand.grid(
@@ -75,16 +75,16 @@ logic_map <- function(fvec, avec = 1L, bvec = NULL, logical.out = FALSE, regex =
 		, logical.out = c(TRUE, FALSE)
 		, stringsAsFactors = FALSE
 		)
-	} |> data.table::as.data.table();
+	} |> data.table::as.data.table()
 
 	# Exclusions:
 	exclude_these <- rlang::exprs(
 		empty_bvec & (any_empty_bvec_names | bvec_is_list)
 		, regex & fvec_class %in% c("numeric", "integer")
-		);
+		)
 
 	logic_map.options <- logic_map.options[!Reduce(x = exclude_these, f = \(x, y) eval(x) | eval(y)), ] |>
-		data.table::setkey();
+		data.table::setkey()
 
 	# Actions:
 	these_actions <- list(
@@ -96,50 +96,51 @@ logic_map <- function(fvec, avec = 1L, bvec = NULL, logical.out = FALSE, regex =
 					unique() |>
 					rlang::set_names()
 
-				bvec_is_list <<- is.list(bvec);
+				bvec_is_list <<- is.list(bvec)
 
 				these_actions$bvec(
 					empty_bvec = empty_bvec
 					, bvec_is_list = bvec_is_list
 					, bvec_is_factor = bvec_is_factor
 					, any_empty_bvec_names = any_empty_bvec_names
-					);
+					)
+				
 			} else if (bvec_is_factor){
 				bvec <<- levels(bvec) |> rlang::set_names()
-				these_actions$bvec_names();
+				these_actions$bvec_names()
 			} else if (any_empty_bvec_names){
-				these_actions$bvec_names();
+				these_actions$bvec_names()
 			} else if (empty_bvec){
 				if (fvec_class == "factor"){
 					bvec <<- levels(fvec) |> rlang::set_names()
 				} else if (fvec_class == "character"){
-					bvec <<- unique(fvec) |> sort() |> rlang::set_names();
+					bvec <<- unique(fvec) |> sort() |> rlang::set_names()
 				} else if (fvec_class == "list"){
-					bvec <<- unique(unlist(fvec, use.names = FALSE)) |> sort() |> rlang::set_names();
+					bvec <<- unique(unlist(fvec, use.names = FALSE)) |> sort() |> rlang::set_names()
 				} else {
 					bvec <<- unique(fvec) |> sort() |> rlang::set_names()
 				}
 			} else {
-				these_actions$bvec_names();
+				these_actions$bvec_names()
 			}
-			invisible();
+			invisible()
 		}
-		, bvec_names = \(){ #browser();
+		, bvec_names = \(){ #browser()
 				.names <- if (hasName(attributes(bvec), "names")){ names(bvec) } else { unique(bvec) }
-				.idx <- which(.names == "");
-				.names[.idx] <- bvec[.idx] |> unlist();
-				bvec <<- rlang::set_names(bvec, .names) |> unlist();
-				invisible();
+				.idx <- which(.names == "")
+				.names[.idx] <- bvec[.idx] |> unlist()
+				bvec <<- rlang::set_names(bvec, .names) |> unlist()
+				invisible()
 			}
-		);
+		)
 
 	# Argument handling:
-	fvec_class <- classes[match(class(fvec), classes, nomatch = 1)];
-	avec_class <- classes[match(class(avec), classes, nomatch = 1)];
-	bvec_is_list <- is.list(bvec);
-	bvec_is_factor <- is.factor(bvec);
-	empty_bvec <- rlang::is_empty(bvec);
-	any_empty_bvec_names <- any(names(bvec) == "");
+	fvec_class <- classes[match(class(fvec), classes, nomatch = 1)]
+	avec_class <- classes[match(class(avec), classes, nomatch = 1)]
+	bvec_is_list <- is.list(bvec)
+	bvec_is_factor <- is.factor(bvec)
+	empty_bvec <- rlang::is_empty(bvec)
+	any_empty_bvec_names <- any(names(bvec) == "")
 	if (class(avec) %in% c("character", "factor")){ avec <- match(avec, avec) } 
 	assertive::assert_is_numeric(avec)
 
@@ -161,7 +162,7 @@ logic_map <- function(fvec, avec = 1L, bvec = NULL, logical.out = FALSE, regex =
 				, bvec_is_factor
 				, any_empty_bvec_names
 				)
-		];
+		]
 
 	# Define the detection function:
 	detect_fun <- if (regex){ # Pattern detection:

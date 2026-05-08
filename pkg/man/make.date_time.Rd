@@ -31,8 +31,6 @@ A temporal vector
 }
 \seealso{
 Other Data Generation: 
-\code{\link{bin.windows}()},
-\code{\link{formulate}()},
-\code{\link{make.windows}()}
+\code{\link{formulate}()}
 }
 \concept{Data Generation}

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Book of Features • book.of.features</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -19,7 +19,7 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">book.of.features</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.4</span>
       </span>
     </div>
 
@@ -50,7 +50,7 @@
 <li>
   <a href="https://github.com/delriaan/book.of.features/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -61,7 +61,7 @@
 </div>
 <!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="contents col-md-9">
@@ -78,15 +78,46 @@
 <div class="section level2">
 <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a>
 </h2>
-<ul>
-<li>bin.windows</li>
-<li>create_dims</li>
-<li>logic_map</li>
-<li>make.date_time</li>
-<li>make.quantiles</li>
-<li>make.windows</li>
-<li>sigmoid</li>
-</ul>
+<table style="width:97%;" class="table">
+<colgroup>
+<col width="48%">
+<col width="48%">
+</colgroup>
+<thead><tr>
+<th align="left">Function</th>
+<th align="left">Synopsis</th>
+</tr></thead>
+<tbody>
+<tr>
+<td align="left"><code><a href="reference/bin.windows.html">bin.windows()</a></code></td>
+<td align="left">Creates labeled bins from integer input, with optional ordered factor output.</td>
+</tr>
+<tr>
+<td align="left"><code><a href="reference/create_dims.html">create_dims()</a></code></td>
+<td align="left">Generates all valid <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>d</mi><annotation encoding="application/x-tex">d</annotation></semantics></math>-dimensional factor combinations whose product equals <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>n</mi><annotation encoding="application/x-tex">n</annotation></semantics></math>.</td>
+</tr>
+<tr>
+<td align="left"><code><a href="reference/formulate.html">formulate()</a></code></td>
+<td align="left">Builds a formula object from supplied left- and right-hand-side terms.</td>
+</tr>
+<tr>
+<td align="left"><code><a href="reference/logic_map.html">logic_map()</a></code></td>
+<td align="left">Produces a one-hot/logical occurrence map (optionally sparse) from values or tuples.</td>
+</tr>
+<tr>
+<td align="left"><code><a href="reference/make.date_time.html">make.date_time()</a></code></td>
+<td align="left">Generates date-time sequences by adding interval offsets to a start date/time.</td>
+</tr>
+<tr>
+<td align="left"><code><a href="reference/make.quantiles.html">make.quantiles()</a></code></td>
+<td align="left">Replaces values with their matched quantile cut values or quantile labels.</td>
+</tr>
+<tr>
+<td align="left"><code><a href="reference/sigmoid.html">sigmoid()</a></code></td>
+<td align="left">Scales numeric input using selectable sigmoid-family transformations.</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
   </div>
@@ -102,8 +133,7 @@
 <div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li>file <a href="LICENSE-text.html">LICENSE</a>
-</li>
+<li>GPL (&gt;= 3)</li>
 </ul>
 </div>
 
@@ -118,7 +148,7 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Chionesu George <br><small class="roles"> Maintainer </small>  </li>
+<li>Chionesu George <br><small class="roles"> Maintainer </small>   </li>
 </ul>
 </div>
 
@@ -135,16 +165,16 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>
 </div>
 
-  
 
 
-  
+
+
 
   </body>
 </html>

@@ -1,39 +1,39 @@
 sigmoid <- function(input, family = "logistic", center = mean, ...){
-#' {0,N} Sigmoid Scaler
-#'
-#' \code{sigmoid} Scales the input to a range of {0,N} using the sigmoid function
-#'
-#' Function arguments for each sigmoid family are as follows:
-#' \enumerate{
-#'   \item{\code{"generalized"}: \code{list(A, K, C, Q, B, v)}}
-#'   \item{\code{"logistic"}: \code{list(L, K)}}
-#'   \item{\code{"gompertz"}: \code{list(A, B, C)}}
-#' }
-#' Families \code{tanh}, \code{atan}, and \code{guder}(mannian) only take the input as its argument
-#'
-#' @section References:
-#' \enumerate{
-#' \item{\href{https://en.m.wikipedia.org/wiki/Generalised_logistic_function}{Generalized Logistic Function}}
-#' \item{\href{https://en.m.wikipedia.org/wiki/Sigmoid_function}{Sigmoid Function}}
-#' \item{\href{https://en.m.wikipedia.org/wiki/Gompertz_function}{Gompertz Function}}
-#' \item{\href{https://en.m.wikipedia.org/wiki/Gudermannian_function}{Gudermannian Function}}
-#' }
-#'
-#' @importFrom book.of.utilities %bin% factor.int %tf%
-#' @importFrom stringi %s+%
-#' @importFrom magrittr %>%
-#' @importFrom stats quantile
-#' @importFrom utils str
-#' @import data.table
-#'
-#' @param input (numeric vector or coercible vector)
-#' @param family (string | "logistic") The family of sigmoid equation to use: Currently, only "logistic", "generalized", and "gompertz" are supported
-#' @param center A function that returns the 'center' of \code{input}
-#' @param ... Valid elements that populate the arguments of \code{type} based on the selected \code{family} (see 'Details')
-#'
-#' @return A numeric vector of domain {0, N}
-#'
-#' @export
+	#' {0,N} Sigmoid Scaler
+	#'
+	#' \code{sigmoid} Scales the input to a range of {0,N} using the sigmoid function
+	#'
+	#' Function arguments for each sigmoid family are as follows:
+	#' \enumerate{
+	#'   \item{\code{"generalized"}: \code{list(A, K, C, Q, B, v)}}
+	#'   \item{\code{"logistic"}: \code{list(L, K)}}
+	#'   \item{\code{"gompertz"}: \code{list(A, B, C)}}
+	#' }
+	#' Families \code{tanh}, \code{atan}, and \code{guder}(mannian) only take the input as its argument
+	#'
+	#' @section References:
+	#' \enumerate{
+	#' \item{\href{https://en.m.wikipedia.org/wiki/Generalised_logistic_function}{Generalized Logistic Function}}
+	#' \item{\href{https://en.m.wikipedia.org/wiki/Sigmoid_function}{Sigmoid Function}}
+	#' \item{\href{https://en.m.wikipedia.org/wiki/Gompertz_function}{Gompertz Function}}
+	#' \item{\href{https://en.m.wikipedia.org/wiki/Gudermannian_function}{Gudermannian Function}}
+	#' }
+	#'
+	#' @importFrom book.of.utilities %bin% factor.int %tf%
+	#' @importFrom stringi %s+%
+	#' @importFrom magrittr %>%
+	#' @importFrom stats quantile
+	#' @importFrom utils str
+	#' @import data.table
+	#'
+	#' @param input (numeric vector or coercible vector)
+	#' @param family (string | "logistic") The family of sigmoid equation to use: Currently, only "logistic", "generalized", and "gompertz" are supported
+	#' @param center A function that returns the 'center' of \code{input}
+	#' @param ... Valid elements that populate the arguments of \code{type} based on the selected \code{family} (see 'Details')
+	#'
+	#' @return A numeric vector of domain {0, N}
+	#'
+	#' @export
 
 	input = as.complex(as.numeric(unlist(input)));
 

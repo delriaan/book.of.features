@@ -38,8 +38,6 @@ formulate(score, this, -that, c(that:other, high*low))
 }
 \seealso{
 Other Data Generation: 
-\code{\link{bin.windows}()},
-\code{\link{make.date_time}()},
-\code{\link{make.windows}()}
+\code{\link{make.date_time}()}
 }
 \concept{Data Generation}

@@ -1,54 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/bin.windows.html</loc>
-  </url>
-  <url>
-    <loc>/reference/Book-of-Features-Package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/book.of.features-package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/book.of.features.html</loc>
-  </url>
-  <url>
-    <loc>/reference/continuity.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_dims.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/logic_map.html</loc>
-  </url>
-  <url>
-    <loc>/reference/make.date_time.html</loc>
-  </url>
-  <url>
-    <loc>/reference/make.quantiles.html</loc>
-  </url>
-  <url>
-    <loc>/reference/make.windows.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sigmoid.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/Book-of-Features-Package.html</loc></url>
+<url><loc>/reference/bin.windows.html</loc></url>
+<url><loc>/reference/book.of.features-package.html</loc></url>
+<url><loc>/reference/book.of.features.html</loc></url>
+<url><loc>/reference/continuity.html</loc></url>
+<url><loc>/reference/create_dims.html</loc></url>
+<url><loc>/reference/formulate.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/logic_map.html</loc></url>
+<url><loc>/reference/make.date_time.html</loc></url>
+<url><loc>/reference/make.quantiles.html</loc></url>
+<url><loc>/reference/make.windows.html</loc></url>
+<url><loc>/reference/sigmoid.html</loc></url>
 </urlset>
+

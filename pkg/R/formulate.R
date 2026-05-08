@@ -1,32 +1,32 @@
 formulate <- function(lhs = NULL, ...){
-#' Make A Formula
-#'
-#' \code{formulate} takes the inputs and assembles a \code{\link[stats]{formula}} object
-#'
-#' @param lhs (string|symbol) The left-hand side of the formula
-#' @param ... (dots-list) Elements to use on the right-hand side of the formula
-#'
-#' @section \code{...}:
-#' \itemize{
-#' \item{Length-1 elements are treated as terms}
-#' \item{Vectors are reduced as individual terms}
-#' \item{Refer to \code{\link[stats]{formula}} for valid syntax}
-#' }
-#'
-#' @return A formula
-#'
-#' @examples
-#' formulate(score)
-#' formulate(score, )
-#' formulate(score, -that)
-#' formulate(score, this)
-#' formulate(score, this:that)
-#' formulate(score, this*that)
-#' formulate(score, this, -that, c(that:other, high*low))
-#'
-#' @family Data Generation
-#'
-#' @export
+	#' Make A Formula
+	#'
+	#' \code{formulate} takes the inputs and assembles a \code{\link[stats]{formula}} object
+	#'
+	#' @param lhs (string|symbol) The left-hand side of the formula
+	#' @param ... (dots-list) Elements to use on the right-hand side of the formula
+	#'
+	#' @section \code{...}:
+	#' \itemize{
+	#' \item{Length-1 elements are treated as terms}
+	#' \item{Vectors are reduced as individual terms}
+	#' \item{Refer to \code{\link[stats]{formula}} for valid syntax}
+	#' }
+	#'
+	#' @return A formula
+	#'
+	#' @examples
+	#' formulate(score)
+	#' formulate(score, )
+	#' formulate(score, -that)
+	#' formulate(score, this)
+	#' formulate(score, this:that)
+	#' formulate(score, this*that)
+	#' formulate(score, this, -that, c(that:other, high*low))
+	#'
+	#' @family Data Generation
+	#'
+	#' @export
 
 	f <- ~1
 
